@@ -1,0 +1,12 @@
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Cache do Odoo
+*.log
+*.egg-info/
+*.pot
+*.mo
