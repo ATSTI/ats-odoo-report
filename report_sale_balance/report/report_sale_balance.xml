@@ -67,7 +67,7 @@
                         <td class="qtde"><span t-esc="o['venda']" t-options='{"widget": "float", "precision": 1}'/></td>
                         <td class="preco">R$<span t-esc="o['preco']" t-options='{"widget": "float", "precision": 2}'/></td>
                         <td class="sld"><span t-esc="o['saldo']" t-options='{"widget": "float", "precision": 1}'/></td>
-                    </tr>
+                    </tr> <!--o web.external.layout nao funciona bem com dicionarios, isto ta quebrando o report!-->
                 </t>
             </table>
         </t>

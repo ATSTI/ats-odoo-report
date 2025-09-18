@@ -18,10 +18,10 @@
 
 {
     'name': 'Relatorio ponto de venda - tipo venda',
-    'version': '1.0',
+    'version': '16.0',
     'category': 'Sales/Point of Sale',
-    'author': 'ATS Solucoes',
-    'website': 'http://www.atsti.com.br',
+    'author': 'ATSTi Solucoes',
+    'website': '',
     'license': 'AGPL-3',
     'contributors': [
         'Carlos Silveira<carlos@atsti.com.br>',

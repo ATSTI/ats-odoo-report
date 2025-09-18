@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <report
-        id="report_delivery_document_claudio_id"
-        string="Cupom"
-        model="account.move"
-        report_type="qweb-pdf"
-        name="report_claudio.report_delivery_document_claudio"
-        file="report_claudio.report_delivery_document_claudio"
-    />
+
+    <record id="action_record_invoice_claudio" model="ir.actions.report">
+            <field name="name">Cupom</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">report_claudio.report_delivery_document_claudio</field>
+            <field name="report_file">report_claudio.report_delivery_document_claudio</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+    </record>
+
     <record id="cupom_paperformat_id" model="report.paperformat">
         <field name="name">Impressora Cupom</field>
         <field name="default" eval="True"/>

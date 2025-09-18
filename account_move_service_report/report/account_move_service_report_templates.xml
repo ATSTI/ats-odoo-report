@@ -181,14 +181,6 @@
                             <td><span t-field="doc.invoice_date_due"/></td>
                         </tr>
                     </table>
-
-                    <!-- <table class="extensive_value">
-                        <tr>
-                            <td>VALOR<br/>POR<br/>EXTENSO</td>
-                            <td><span t-field="doc.extensive_value"/></td>
-                        </tr>
-                    </table> -->
-
                     <table class="client">
                         <tr>
                             <td>NOME DO SACADO: <span t-field="doc.partner_id.name"/></td>
@@ -236,9 +228,6 @@
                             <td>
                                
                                <span t-field="doc.narration"/>
-                                <!--<span t-field="doc.narration"/>
-                                <br/><br/><br/><br/><br/>-->
-                                <!-- <span t-field="doc.fiscal_comment"/> -->
                             </td>
                             <td/>
                             <td/>

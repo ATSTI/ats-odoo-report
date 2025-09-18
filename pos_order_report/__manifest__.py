@@ -4,10 +4,10 @@
 {
     'name': 'Pos order Report',
     'summary': 'Add Category no report .',
-    'version': '12.0.1.0.0',
+    'version': '16.0',
     'category': 'Point of sale',
-    'website': 'www.atsti.com.br',
-    'author': 'Mauricio, ATSTi Soluções',
+    'website': '',
+    'author': 'ATSTi Soluções',
     'license': 'AGPL-3',
     'depends': [
         'point_of_sale',

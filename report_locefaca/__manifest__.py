@@ -3,18 +3,17 @@
 
 {
     'name': 'Relatorios LoceFaca',
-    'version': '1.0',
+    'version': '16.0',
     'category': 'Others',
     'license': 'AGPL-3',
     'sequence': 2,
     'summary': 'Relatorios personalizados',
     'description': """
     """,
-    'author': 'ATS Soluções',
+    'author': 'ATSTi Soluções',
     'website': '',
     'depends': ['account', 'l10n_br_sale'],
     'data': [
-        'report/report_saleorder_document.xml',
         'report/report_delivery_document_locefaca.xml',
         'report/report_layout_background.xml',
     ],

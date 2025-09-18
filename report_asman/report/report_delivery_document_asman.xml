@@ -121,9 +121,6 @@
                             <td style="border: 1px solid black; width:15% ; height: 35px; text-align: right; font-size: 17px">
                                 <b>VLR UNIT</b>
                             </td>
-                            <!-- <td style="border: 1px solid black; width:15% ; height: 35px; text-align: right; font-size: 17px">
-                                        <b>Impostos</b>
-                                    </td>-->
                             <td style="border: 1px solid black; width:15% ; height: 35px; text-align: right; font-size: 17px">
                                 <b>VLR TOTAL</b>
                             </td>
@@ -139,9 +136,6 @@
                                 <td style="border: 1px solid black; height: 40px; text-align:right ; font-size: 15px">
                                     <span t-field="line.price_unit"/>
                                 </td>
-                                <!-- <td name="td_taxes" class="text-right" style="border: 1px solid black; height: 40px; text-align:right ; font-size: 15px">
-                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
-                                        </td> -->
                                 <td style="border: 1px solid black; height: 40px; text-align:right ; font-size: 15px">
                                     <span t-field="line.price_subtotal"/>
                                 </td>
@@ -149,24 +143,6 @@
                         </t>
                     </table>
                     <br/>
-                    <!--<table style="border: 1px solid black; border-collapse: collapse; height: 30px; width: 51%; float: right;">
-                                <tr>
-                                    <td style="border: 1px solid black ; height:35px ;  width: 60%; text-align: left; font-size: 17px">
-                                        <p>Total sem impostos</p>
-                                    </td>
-                                    <td style="border: 1px solid black ; height:35px; text-align: right; background-color: #e6e6e6; font-size: 17px">
-                                        <span t-field="o.amount_untaxed"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid black ; height:35px ;  width: 60%; text-align: left; font-size: 17px">
-                                        <p>Impostos</p>
-                                    </td>
-                                    <td style="border: 1px solid black ; height:35px; text-align: right; background-color: #e6e6e6; font-size: 17px">
-                                        <span t-field="o.amount_tax"/>
-                                    </td>
-                                </tr>
-                            </table>-->
                     <table style="border: 0px solid black; border-collapse: collapse; width: 45%; float: right; background-color: #646665 ; color: #FFFFFF">
                         <tr>
                             <td style="border: 0px solid black ;  height: 40px; width: 60%; text-align: left; font-size: 19px">

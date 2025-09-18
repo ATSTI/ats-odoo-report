@@ -181,14 +181,6 @@
                             <td><span t-field="doc.invoice_date_due"/></td>
                         </tr>
                     </table>
-
-                    <!-- <table class="extensive_value">
-                        <tr>
-                            <td>VALOR<br/>POR<br/>EXTENSO</td>
-                            <td><span t-field="doc.extensive_value"/></td>
-                        </tr>
-                    </table> -->
-
                     <table class="client">
                         <tr>
                             <td>CLIENTE : <span t-field="doc.partner_id.name"/></td>
@@ -234,7 +226,6 @@
                                     <td><span t-esc="price/qty" t-options='{"widget": "float", "precision": 2}'/></td>
                                     <td><span t-esc="price" t-options='{"widget": "float", "precision": 2}' /></td>
                                 </tr>
-                                <!-- imprimiu , entao Zera -->
                                 <t t-set="uom" t-value=""/>
                                 <t t-set="qty" t-value="0"/>
                                 <t t-set="price" t-value="0.0"/>
@@ -261,9 +252,6 @@
                             <td>
                                
                                <span t-field="doc.narration"/>
-                                <!--<span t-field="doc.narration"/>
-                                <br/><br/><br/><br/><br/>-->
-                                <!-- <span t-field="doc.fiscal_comment"/> -->
                             </td>
                             <td/>
                             <td/>
