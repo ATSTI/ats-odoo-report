@@ -12,7 +12,7 @@
     """,
     'author': 'ATSTi Soluções',
     'website': '',
-    'depends': ['account', 'l10n_br_sale'],
+    'depends': ['account', 'l10n_br_sale','stock'],
     'data': [
         'report/report_delivery_document_locefaca.xml',
         'report/report_layout_background.xml',

@@ -12,7 +12,7 @@
     """,
     'author': 'ATSTi Soluções',
     'website': '',
-    'depends': ['account','repair'],
+    'depends': ['account','repair','repair_date'],
     'data': [
         'report/report_document_repair.xml',
         'views/repair_report.xml'
