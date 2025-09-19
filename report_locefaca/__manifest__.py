@@ -12,10 +12,9 @@
     """,
     'author': 'ATSTi Soluções',
     'website': '',
-    'depends': ['account', 'l10n_br_sale','stock'],
+    'depends': ['account', 'l10n_br_sale','stock','report_cabecalho'],
     'data': [
         'report/report_delivery_document_locefaca.xml',
-        'report/report_layout_background.xml',
     ],
     'installable': True,
     'application': False,
