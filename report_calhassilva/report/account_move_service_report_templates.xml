@@ -28,7 +28,7 @@
                 </style>
 
                 <main>
-                    <div class="page">
+                    <div class="page" style ='padding-top:10%'>
                         <table class="company">
                             <tr>
                                 <td class="logo">

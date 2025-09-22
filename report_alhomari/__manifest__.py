@@ -13,7 +13,7 @@
     """,
     'author': 'ATSTi Soluções',
     'website': '',
-    'depends': ['account', 'l10n_br_sale'],
+    'depends': ['account', 'l10n_br_sale','account_payment_mode'],
     'data': [
         'report/report_saleorder_document.xml',
         'report/account_move_alhomari_report_templates.xml',
