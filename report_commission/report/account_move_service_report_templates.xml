@@ -138,7 +138,7 @@
                 }
             </style>
         <main>
-            <div class="page">
+            <div class="page" style ='padding-top:10%;'>
 
                 <t t-set="o" t-value="docs" />
                 <div class="oe_structure"/>

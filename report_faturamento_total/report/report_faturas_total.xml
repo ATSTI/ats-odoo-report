@@ -3,31 +3,11 @@
     <template id="report_account_fullist">
         <t t-call="web.external_layout">
         <main>
-            <div class="page">
+            <div class="page" style ='padding-top:10%;'>
                 <div class="oe_structure"/>
                 <div class="page">
                     <div class="oe_structure"/>
                     <br/>
-                    <!-- <table style="width:49%; height: 60px;float: left;">
-                        <tr><td style="height: 30px"></td></tr>
-                        <tr>
-                            <td style="text-align: left; width:100%" >
-                                <b style="font-size:18px" t-field="docs.company_id.name"/>                                
-                                <br/> <span t-field="docs.company_id.street"/>, <span t-field="docs.company_id.street_number"/>
-                                <br/> <span t-field="docs.company_id.district"/> - <span t-field="docs.company_id.city_id.name"/>;
-                            </td>
-                        </tr>
-                    </table>
-                    <table style="width:49%; height: 30px;text-align: right;">
-                        <tr>
-                            <td style="width:40%">
-                                <div style="width: 100%;float: right;">
-                                    <img t-attf-src="data:image/*;base64,{{docs.company_id.logo}}"
-                                        t-att-alt="docs.company_id.name" style="width:50%; height:50%"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </table> -->
                 </div>
                 <br/><br/>
                 <t t-set="product" t-value="set()" />

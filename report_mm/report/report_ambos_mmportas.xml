@@ -163,8 +163,13 @@
                                             </td>
                                         </t>
                                         <t t-elif="line.display_type == 'line_section'">
-                                            <td colspan="99"><span t-field="line.name"/></td>
-                                        </t>
+                                        <tr t-att-style="'background-color: #d6d8db; font-weight: bold; color: #000;'">
+                                            <td colspan="99" t-att-style="'border: 2px solid #000; padding: 6px;'">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </tr>
+                                    </t> <!--Aqui que altera a cor da secao, ver se eles aprova assim-->
+
                                         <t t-elif="line.display_type == 'line_note'">
                                             <td colspan="99"><span t-field="line.name"/></td>
                                         </t>

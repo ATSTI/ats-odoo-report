@@ -77,7 +77,7 @@
         </style>
 
         <main>
-          <div class="page">
+          <div class="page" style ='padding-top:10%;'>
             <div style="margin-bottom: 20px; border-bottom: 1px dashed #000;"></div>
 
             <div class="client-info">
