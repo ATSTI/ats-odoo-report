@@ -7,7 +7,16 @@ class MailTemplate(models.Model):
 
     report_template = fields.Many2many(
         comodel_name='ir.actions.report',
-        string='Optional reports to print and attach'
+        string='Optional reports to print and attach',
+        default=lambda self: self.env['ir.actions.report'].search([
+            ('report_name', 'in', [
+                'report_mm.report_ambos_mmportas',
+                'report_mm.report_contrato_mmportas',
+                'report_mm.report_contrato_orcamento_stand_mmportas',
+                'report_mm.report_contrato_stand_mmportas',
+                'report_mm.report_orcamento_mmportas'
+            ])
+        ]).ids
     )
 
     def generate_email(self, res_ids, fields):
@@ -34,38 +43,10 @@ class MailTemplate(models.Model):
                 results = template.generate_recipients(results, template_res_ids)
 
             for res_id in template_res_ids:
-                values = results[res_id]
-                if values.get('body_html'):
-                    values['body'] = tools.html_sanitize(values['body_html'])
-                scheduled_date = values.pop('scheduled_date', None)
-                if 'scheduled_date' in fields and scheduled_date:
-                    parsed_datetime = self.env['mail.mail']._parse_scheduled_datetime(scheduled_date)
-                    values['scheduled_date'] = parsed_datetime.replace(tzinfo=None) if parsed_datetime else False
-
-                values.update(
-                    mail_server_id=template.mail_server_id.id or False,
-                    auto_delete=template.auto_delete,
-                    model=template.model,
-                    res_id=res_id or False,
-                    attachment_ids=[attach.id for attach in template.attachment_ids],
-                )
-
-            
-            default_reports = self.env['ir.actions.report'].search([
-                ('report_name', 'in', [
-                    'report_mm.report_orcamento_mmportas'
-                    'report_mm.report_contrato_mmportas',
-                    'report_mm.report_ambos_mmportas',
-                    'report_mm.report_contrato_stand_mmportas',
-                    'report_mm.report_contrato_orcamento_stand_mmportas',
-                ])
-            ])
-
-            for res_id in template_res_ids:
                 attachments = results[res_id].setdefault('attachments', [])
                 report_display_names = results[res_id].setdefault('report_names', [])
 
-                for report in default_reports:
+                for report in template.report_template:
                     report_name = report.name
                     report_display_names.append(report_name)
 
@@ -85,4 +66,5 @@ class MailTemplate(models.Model):
 
                     attachments.append((report_name, result))
 
+        # <-- return deve ficar aqui, fora de todos os loops
         return multi_mode and results or results[res_ids[0]]
