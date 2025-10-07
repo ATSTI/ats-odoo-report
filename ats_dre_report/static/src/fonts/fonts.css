@@ -1,0 +1,11 @@
+/* Fonte com suporte completo a acentos/ç para o wkhtmltopdf */
+@font-face {
+  font-family: "ATSDejaVu";
+  src: url("/ats_dre_report/static/src/fonts/DejaVuSans.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --dre-font: "ATSDejaVu", "DejaVu Sans", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+}

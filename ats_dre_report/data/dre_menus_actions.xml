@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <!-- Wizard -->
+  <record id='action_open_dre_wizard' model='ir.actions.act_window'>
+    <field name='name'>DRE (ATS)</field>
+    <field name='res_model'>dre.report.wizard</field>
+    <field name='view_mode'>form</field>
+    <field name='view_id' ref='view_dre_report_wizard_form'/>
+    <field name='target'>new</field>
+  </record>
+  <menuitem id='menu_dre_wizard' name='DRE (ATS)'
+            parent='account.menu_finance_reports' action='action_open_dre_wizard'/>
+
+  <!-- Drill-down (somente postados) -->
+  <record id="action_open_move_lines_posted" model="ir.actions.act_window">
+    <field name="name">Lançamentos (DRE)</field>
+    <field name="res_model">account.move.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[
+      ('company_id','=',context.get('ctx_company_id')),
+      ('account_id','=',context.get('ctx_account_id')),
+      ('date','&gt;=',context.get('ctx_date_from')),
+      ('date','&lt;=',context.get('ctx_date_to')),
+      ('parent_state','=','posted')
+    ]</field>
+    <field name="context">{}</field>
+  </record>
+
+  <!-- Drill-down (todos) -->
+  <record id="action_open_move_lines_all" model="ir.actions.act_window">
+    <field name="name">Lançamentos (DRE)</field>
+    <field name="res_model">account.move.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[
+      ('company_id','=',context.get('ctx_company_id')),
+      ('account_id','=',context.get('ctx_account_id')),
+      ('date','&gt;=',context.get('ctx_date_from')),
+      ('date','&lt;=',context.get('ctx_date_to'))
+    ]</field>
+    <field name="context">{}</field>
+  </record>
+</odoo>

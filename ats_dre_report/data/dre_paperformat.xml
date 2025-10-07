@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <record id='paperformat_dre_a4' model='report.paperformat'>
+    <field name='name'>DRE A4</field>
+    <field name='format'>A4</field>
+    <field name='orientation'>Portrait</field>
+    <field name='margin_top'>20</field>
+    <field name='margin_bottom'>20</field>
+    <field name='margin_left'>10</field>
+    <field name='margin_right'>10</field>
+  </record>
+</odoo>

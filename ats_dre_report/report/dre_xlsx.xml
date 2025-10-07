@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <report
+    id="action_report_dre_xlsx"
+    model="dre.report.wizard"
+    string="DRE (XLSX)"
+    report_type="xlsx"
+    name="ats_dre_report.report_dre_xlsx"
+    file="DRE_ATS"
+  />
+</odoo>

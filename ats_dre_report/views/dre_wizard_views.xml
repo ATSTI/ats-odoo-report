@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_dre_report_wizard_form" model="ir.ui.view">
+    <field name="name">dre.report.wizard.form</field>
+    <field name="model">dre.report.wizard</field>
+    <field name="arch" type="xml">
+      <form string="DRE (ATS)">
+        <group>
+          <field name="company_id"/>
+          <field name="date_from"/>
+          <field name="date_to"/>
+          <field name="target_move"/>
+          <field name="add_compare"/>
+          <field name="compare_mode" attrs="{'invisible':[('add_compare','=',False)]}"/>
+        </group>
+        <footer>
+          <button name="action_view_html" string="Visualizar" type="object" class="btn-primary"/>
+          <button name="action_view_pdf" string="PDF" type="object" class="btn-secondary"/>
+          <button name="action_export_xlsx" string="Exportar XLSX" type="object" class="btn-secondary"/>
+          <button string="Fechar" class="btn-link" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <template id='report_dre_template'>
+    <t t-call='web.html_container'>
+      <t t-foreach='docs' t-as='o'>
+        <div class='page'>
+          <style>
+            .dre { font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif; font-size: 12px; }
+            .dre h2 { margin-bottom: 6px; font-weight: 700; }
+            .dre .muted { color: #666; font-size: 12px; margin-bottom: 12px; }
+            .dre table { width: 100%; border-collapse: collapse; }
+            .dre th, .dre td { padding: 6px 8px; border-bottom: 1px solid #eaeaea; }
+            .dre th { text-transform: uppercase; font-size: 11px; letter-spacing: .02em; background: #fafafa; }
+            .dre .num { text-align: right; white-space: nowrap; }
+            .dre .neg { color: #c0392b; }
+            .dre .account-row td { font-size: 12px; padding-left: 16px; }
+            .dre .subtotal { background: #f6f7f9; font-weight: 600; }
+            .dre .highlight { background: #f0f9ff; font-weight: 600; }
+            .dre .smallhdr { font-size: 11px; color: #888; padding-left: 12px; }
+            .dre a { text-decoration: none; color: #0b57d0; }
+          </style>
+
+          <div class="dre">
+            <h2>Demonstração do Resultado - <t t-esc='o.company_id.name'/></h2>
+            <div class="muted">
+              Período: <t t-esc='o.date_from'/> a <t t-esc='o.date_to'/> — Moeda: <t t-esc='o.company_id.currency_id.name'/>
+            </div>
+
+            <t t-set="vals" t-value="data or {}"/>
+            <t t-set="bd" t-value="breakdown or {}"/>
+            <t t-set="bdj" t-value="breakdown_joined or {}"/>
+            <t t-set="cmp" t-value="comp or {}"/>
+            <t t-set="dlt" t-value="delta or {}"/>
+            <t t-set="dpc" t-value="delta_pct or {}"/>
+            <t t-set="pfrom" t-value="prev_date_from"/>
+            <t t-set="pto" t-value="prev_date_to"/>
+            <t t-set="action_id" t-value="(o.target_move == 'posted') and act_posted_id or act_all_id"/>
+
+            <table>
+              <tr>
+                <th>Seção</th>
+                <t t-if="add_compare">
+                  <th class="num">Atual</th>
+                  <th class="num"><t t-esc="compare_label or 'Anterior'"/></th>
+                  <th class="num">Δ</th>
+                  <th class="num">Δ %</th>
+                </t>
+                <t t-else="">
+                  <th class="num">Valor</th>
+                </t>
+              </tr>
+
+              <t t-set="R" t-value="['rev_gross','rev_deductions','rev_net','cogs','gross_profit','opex','op_result','fin_income','fin_expense','fin_result','other_income','other_expense','ebt','tax_income','net_income']"/>
+
+              <t t-foreach="R" t-as="key">
+                <tr t-attf-class="#{key in ['rev_gross','cogs','opex'] and 'subtotal' or ''} #{key in ['rev_net','gross_profit','op_result','fin_result','ebt','net_income'] and 'highlight' or ''}">
+                  <td>
+                    <t t-if="key=='rev_gross'">Receita Bruta</t>
+                    <t t-if="key=='rev_deductions'">Deduções de Receita</t>
+                    <t t-if="key=='rev_net'"><b>Receita Líquida</b></t>
+                    <t t-if="key=='cogs'">COGS</t>
+                    <t t-if="key=='gross_profit'"><b>Lucro Bruto</b></t>
+                    <t t-if="key=='opex'">Despesas Operacionais</t>
+                    <t t-if="key=='op_result'"><b>Resultado Operacional</b></t>
+                    <t t-if="key=='fin_income'">Receitas Financeiras</t>
+                    <t t-if="key=='fin_expense'">Despesas Financeiras</t>
+                    <t t-if="key=='fin_result'"><b>Resultado Financeiro</b></t>
+                    <t t-if="key=='other_income'">Outras Receitas</t>
+                    <t t-if="key=='other_expense'">Outras Despesas</t>
+                    <t t-if="key=='ebt'"><b>EBT</b></t>
+                    <t t-if="key=='tax_income'">Impostos (IR/CSLL)</t>
+                    <t t-if="key=='net_income'"><b>Lucro Líquido</b></t>
+                  </td>
+
+                  <t t-if="add_compare">
+                    <td class="num" t-att-class="vals.get(key,0) &lt; 0 and 'num neg' or 'num'">
+                      <t t-esc="format_br(vals.get(key,0))"/>
+                    </td>
+                    <td class="num" t-att-class="cmp.get(key,0) &lt; 0 and 'num neg' or 'num'">
+                      <t t-esc="format_br(cmp.get(key,0))"/>
+                    </td>
+                    <td class="num" t-att-class="dlt.get(key,0) &lt; 0 and 'num neg' or 'num'">
+                      <t t-esc="format_br(dlt.get(key,0))"/>
+                    </td>
+                    <td class="num" t-att-class="dpc.get(key,0) &lt; 0 and 'num neg' or 'num'">
+                      <t t-esc="format_pct(dpc.get(key,0))"/>
+                    </td>
+                  </t>
+                  <t t-else="">
+                    <td class="num" t-att-class="vals.get(key,0) &lt; 0 and 'num neg' or 'num'">
+                      <t t-esc="format_br(vals.get(key,0))"/>
+                    </td>
+                  </t>
+                </tr>
+
+                <!-- Detalhe por contas (Atual x Anterior x Δ x Δ%) na MESMA linha -->
+                <t t-if="key in ['rev_gross','cogs','opex','fin_income','fin_expense','other_income','other_expense']">
+                  <tr>
+                    <td class="smallhdr" t-attf-colspan="#{add_compare and 5 or 2}">Contas — Período atual</td>
+                  </tr>
+
+                  <tr class="account-row" t-foreach="bdj.get(key, [])" t-as="ln">
+                    <td>
+                      <a t-attf-href="/ats_dre_report/open_lines?company_id=#{o.company_id.id}&amp;account_id=#{ln.get('id')}&amp;date_from=#{o.date_from}&amp;date_to=#{o.date_to}&amp;posted=#{1 if o.target_move == 'posted' else 0}"
+                         target="_top" rel="noopener noreferrer" class="o_no_capture">
+                        <t t-esc="(ln.get('code') or '') + ' - ' + (ln.get('name') or '')"/>
+                      </a>
+                    </td>
+
+                    <t t-if="add_compare">
+                      <!-- Atual -->
+                      <td class="num" t-att-class="ln.get('amount',0) &lt; 0 and 'num neg' or 'num'">
+                        <t t-esc="format_br(ln.get('amount',0))"/>
+                      </td>
+                      <!-- Anterior (mesma linha) -->
+                      <td class="num" t-att-class="ln.get('prev',0) &lt; 0 and 'num neg' or 'num'">
+                        <t t-esc="format_br(ln.get('prev',0))"/>
+                      </td>
+                      <!-- Δ -->
+                      <td class="num" t-att-class="ln.get('delta',0) &lt; 0 and 'num neg' or 'num'">
+                        <t t-esc="format_br(ln.get('delta',0))"/>
+                      </td>
+                      <!-- Δ % -->
+                      <td class="num" t-att-class="ln.get('delta_pct',0) &lt; 0 and 'num neg' or 'num'">
+                        <t t-esc="format_pct(ln.get('delta_pct',0))"/>
+                      </td>
+                    </t>
+                    <t t-else="">
+                      <!-- Sem comparação: apenas valor -->
+                      <td class="num" t-att-class="ln.get('amount',0) &lt; 0 and 'num neg' or 'num'">
+                        <t t-esc="format_br(ln.get('amount',0))"/>
+                      </td>
+                    </t>
+                  </tr>
+                </t>
+              </t>
+            </table>
+          </div>
+        </div>
+      </t>
+    </t>
+  </template>
+
+  <report id='action_report_dre_html'
+          string='DRE (Visualizar)'
+          model='dre.report.wizard'
+          report_type='qweb-html'
+          name='ats_dre_report.report_dre_template'
+          file='ats_dre_report.report_dre_template'/>
+
+  <report id='action_report_dre_pdf'
+          string='DRE (PDF)'
+          model='dre.report.wizard'
+          report_type='qweb-pdf'
+          name='ats_dre_report.report_dre_template'
+          file='ats_dre_report.report_dre_template'
+          paperformat='paperformat_dre_a4'/>
+</odoo>

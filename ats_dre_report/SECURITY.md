@@ -1,0 +1,1 @@
+Acesso restrito a contadores e gerentes contábeis.
