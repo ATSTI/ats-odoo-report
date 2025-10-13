@@ -66,5 +66,5 @@ class MailTemplate(models.Model):
 
                     attachments.append((report_name, result))
 
-        # <-- return deve ficar aqui, fora de todos os loops
+       
         return multi_mode and results or results[res_ids[0]]

@@ -172,6 +172,12 @@
                         </div>
                     </div>
 
+
+                      <div style="margin-top: 15px; text-align: right;">
+                            <span style="font-weight: bold;">Condição de pagamento: </span>
+                            <span t-field="doc.payment_term_id"/>
+                      </div>
+
                     <div t-if="doc.signature" class="mt-4 ml64 mr4" name="signature">
                         <div class="offset-8"><strong>Assinatura</strong></div>
                         <div class="offset-8">

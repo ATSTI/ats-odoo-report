@@ -185,6 +185,7 @@
                                             <td style="background-color: #37b18c; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between;">
                                                 <span>Total:</span>
                                                 <span t-field="doc.amount_total"
+                                                
                                                       t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
                                                       style="color: white; font-weight: bold;"/>
                                             </td>
@@ -193,6 +194,13 @@
                                 </div>
                             </div>
                         </div>
+
+                      <div style="margin-top: 15px; text-align: right;">
+                            <span style="font-weight: bold;">Condição de pagamento: </span>
+                            <span t-field="doc.payment_term_id"/>
+                    </div>
+
+
 
                         <div t-if="doc.signature" class="mt-4 ml64 mr4" name="signature">
                             <div class="offset-8"><strong>Assinatura</strong></div>
@@ -232,16 +240,16 @@
                         <span>contato@mmportasinternas.com.br</span>
                     </div>
 
-                    <div class="page" style="page-break-before: always;">
-                        <p style="text-align:center; font-size:18px; margin:10px 0;"><b>Contrato</b></p>
-                        <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">INFORMAÇÕES SOBRE A PROPOSTA/PEDIDO</b>
-                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;">
+                    <div class="page" style="page-break-before: always;padding-top:0%;">
+                        <p style="text-align:center; font-size:18px;"><b>Contrato</b></p>
+                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;padding-top:2%;">
+                            <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">INFORMAÇÕES SOBRE A PROPOSTA/PEDIDO</b>
                             <p>1. Informações sobre a proposta/pedido: O cliente declara estar ciente do tempo destinado à fabricação do produto, de acordo com o recebido na proposta, bem como a seleção dos itens nela anotados. Ademais, confirma também os seus dados cadastrais na proposta, certificando estar plenamente ciente de que:</p>
                             <p><strong>ATENÇÃO</strong>: conforme ABNT NBR 15930-4, devem ser cumpridos os requisitos para instalação das portas, onde as esquadrias devem estar instaladas com vidros, acabamento (gesso, argamassa, 1ª demão de tinta, etc.), soleiras instaladas e rejuntadas livres de resíduos, revestimento de paredes e pisos. Os pedidos devem ser enviados para produção quando forem cumpridos os requisitos acima.</p>
                         </div>
 
+                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;padding-top:2%;">
                         <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">TERMOS E CONDIÇÕES</b>
-                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;">
                             <p>1. O prazo de produção e entrega começa a ser contado quando for realizada a medição final e confirmado o envio para a produção junto ao cliente e consultor.</p>
                             <p>2. Após o levantamento de medidas dos vãos (medida final) pelo responsável da MM PORTAS INTERNAS na obra, poderão ocorrer ajustes nos preços orçados em função de divergências nas quantidades, modelos e medidas (para mais ou para menos) das portas, batentes, alizares e demais produtos.</p>
                             <p>3. A Nota Fiscal é emitida após a finalização da produção do pedido e enviada no e-mail cadastrado na proposta.</p>
@@ -253,14 +261,14 @@
                             <p>9. Declaramos que será enviado junto à Nota Fiscal o Termo de Garantia MM Portas Internas (MM COMÉRCIO DE PORTAS INTERNAS LTDA. CNPJ: 56.704.764/0001-12).</p>
                         </div>
 
+                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;padding-top:3%;">
                         <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">Opções de Instalação dos produtos (a critério do cliente)</b>
-                        <div style="font-size:12px; line-height:1.3; page-break-inside: avoid;">
                             <p>Salientamos que a mão de obra incluída na proposta comercial se aplica exclusivamente aos materiais nela descritos. Serviços adicionais são de responsabilidade do cliente, não estando cobertos pela mão de obra mencionada.</p>
                             <p>( ) Instalação Inclusa na Proposta: Caso o cliente opte por adquirir a instalação dos produtos inclusa da MM Portas Internas, a mesma estará inclusa na proposta devidamente precificada e com garantia. Compreende esta instalação a fixação dos conjuntos, alizares, fechaduras e acessórios constantes no pedido.</p>
                             <p>( ) Instalação a cargo do cliente: Caso o cliente opte por contratar a instalação por conta própria, fica isenta a MM COMÉRCIO DE PORTAS INTERNAS LTDA. CNPJ: 56.704.764/0001-12 de quaisquer responsabilidades pelo resultado do serviço de instalação ou danos causados por esse profissional. Por tratar-se de mão de obra terceirizada, a MM Portas Internas se exime de qualquer conduta ética inadequada pelo profissional, ficando apenas no âmbito comercial.</p>
                         </div>
 
-                            <div style="padding-top:25%;page-break-inside: avoid;">
+                            <div style="page-break-inside: avoid;">
                                 <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px;">
                                     Trocas e devoluções
                                 </b>
@@ -276,9 +284,9 @@
                                 <p>9. Estorno de diferença de valores será realizado em até 12 (doze) dias úteis. Caso a modalidade do estorno seja em cartão de crédito, o valor será devolvido diretamente na fatura do cartão, podendo ocorrer em até duas faturas, sendo que o prazo para devolução é de responsabilidade da administradora do cartão.</p>
                                 </div>
                             </div>
-                        <br/><br/><br/>
+                        <br/>
+                        <div style="font-size:12px; line-height:1.3;">
                         <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">Condições gerais para transporte/frete/entrega</b>
-                        <div style="font-size:12px; line-height:1.3">
                             <p>1. A conferência no recebimento dos produtos deve compreender: quantidade de volumes, integridade das embalagens e produtos. A não conferência atesta que os produtos foram entregues nas quantidades corretas e sem danos. Caso o conferente não seja o cliente, terceiros (porteiro, síndico, mestre de obras etc.) serão considerados responsáveis pela conferência.</p>
                             <p>2. Devem ser conferidos os produtos com avarias visíveis, quando a embalagem apresentar dano no ato do recebimento, e feita a devida ressalva (anotação) no Termo de Entrega ou CTe/DACTe (Conhecimento de Transporte).</p>
                             <p>3. Informamos que o transporte, pelas transportadoras terceirizadas, é prioritário para itens essenciais (alimentos, medicamentos, equipamentos médicos etc.).</p>
@@ -286,16 +294,15 @@
                             <p>5. Em face da segurança do cliente e do entregador, conforme determinação dos transportadores, é vedada a subida por elevadores, escadas, içamentos, utilização de janelas ou acessos que possam comprometer a integridade do produto e dos profissionais de entrega. Caso haja elevador de carga, o mesmo poderá ser utilizado desde que os produtos caibam, sem comprometer a segurança e integridade.</p>
                         </div>
 
-                        <div style="padding-top:12%;page-break-inside: avoid;">
-                            <b style="margin-top:50px; background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">Tratamento de Dados Pessoais (LGPD)</b>
-                            <div style="font-size:12px; line-height:1.3; page-break-inside: avoid; margin-top:20px;">
+                        <div style="font-size:12px; line-height:1.3;">
+                            <b style="background-color:#efefef; font-size:14px; display:block; padding:2px 4px; page-break-inside: avoid;">Tratamento de Dados Pessoais (LGPD)</b>                        
                                 <p>Conforme disposto na Lei Geral de Proteção de Dados (LGPD), Lei nº 13.709/2018, seus dados pessoais serão tratados de acordo com os princípios e diretrizes estabelecidos por essa legislação. O consentimento para o uso de seus dados para recebimento de informações da empresa e seus produtos, por SMS, WhatsApp, e-mail e telefone, está de acordo com o Artigo 7º, Inciso IX da LGPD.</p>
                                 <p>E, por estarem assim justas e acordadas, as partes assinam ou aceitam de forma tácita, e a empresa MM Portas (MM COMÉRCIO DE PORTAS INTERNAS LTDA CNPJ: 56.704.764/0001-12) se responsabiliza em cumprir integralmente o termo e a proposta, e o cliente declara que leu e aceitou todos os termos da proposta, eximindo a empresa MM Portas Internas de qualquer irregularidade que seja de obrigação do cliente.</p>
 
-                            </div>
+                        
                         </div>
 
-                        <div style="padding-top:8%;page-break-inside: avoid; margin-left:30px;">
+                        <div style="page-break-inside: avoid; margin-left:30px;">
                                 <div class="signature-left">
                                     _____________________________________________________<br/>
                                     Local e Data
