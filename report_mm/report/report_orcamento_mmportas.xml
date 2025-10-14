@@ -111,7 +111,7 @@
                                 <th class="text-start">Descrição</th>
                                 <th class="text-end">Quantidade</th>
                                 <th class="text-end">Preço Unitário</th>
-                                <th t-if="display_discount" class="text-end">Disc.%</th>
+                                <th t-if="display_discount" style="width:0.01%; font-size:1px; color:transparent;" class="text-end">Disc.%</th>
                                 <th class="text-end" style="width:0.01%; font-size:1px; color:transparent;">Taxes</th> 
                                 <th class="text-end">Subtotal</th>
                             </tr>
@@ -127,7 +127,9 @@
                                             <span t-field="line.product_uom"/>
                                         </td>
                                         <td class="text-end"><span t-field="line.price_unit"/></td>
-                                        <td t-if="display_discount" class="text-end"><span t-field="line.discount"/></td>
+                                        <td t-if="display_discount" class="text-end" style="padding:0; margin:0; border:none; width:0.01%; font-size:0; line-height:0; color:transparent;">
+                                            <span t-field="line.discount"/>
+                                        </td>
 
                                         <td class="text-end" style="padding:0; margin:0; border:none; width:0.01%; font-size:0; line-height:0; color:transparent;">
                                             <span t-if="False" t-field="line.tax_ids"/>
@@ -159,6 +161,14 @@
                         <div id="total" class="row" name="total">
                             <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
                                 <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td style="background-color: #37b18c; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between;">
+                                            <span>Total do Desconto:</span>
+                                            <span t-field="doc.amount_discount_value"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'
+                                                  style="color: white; font-weight: bold;"/>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="background-color: #37b18c; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between;">
                                             <span>Total:</span>
