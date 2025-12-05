@@ -64,23 +64,26 @@
                             <span t-field="doc.partner_id.vat"/>
                         </p>
 
-                        <t t-if="doc.partner_shipping_id == doc.partner_invoice_id and doc.partner_invoice_id != doc.partner_id or doc.partner_shipping_id != doc.partner_invoice_id">
-                            <strong>
-                                <t t-if="doc.partner_shipping_id == doc.partner_invoice_id">
-                                    Fatura e endereço de entrega:
-                                </t>
-                                <t t-else="">
-                                    Endereço de faturamento:
-                                </t>
-                            </strong>
-                            <div t-field="doc.partner_invoice_id" 
-                                 t-options="{'widget': 'contact','fields': ['address','name','phone'],'no_marker': True,'phone_icons': True}"/>
-                            <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+
+                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id or doc.partner_invoice_id != doc.partner_id">
+
+                            <t t-if="doc.partner_shipping_id == doc.partner_invoice_id">
+                                <strong>Fatura e entrega:</strong>
+                                <div t-field="doc.partner_invoice_id"
+                                    t-options="{'widget': 'contact','fields': ['address','name','phone'],'no_marker': True,'phone_icons': True}"/>
+                            </t>
+
+                            <t t-else="">
+                                <strong>Endereço de faturamento:</strong>
+                                <div t-field="doc.partner_invoice_id"
+                                    t-options="{'widget': 'contact','fields': ['address','name','phone'],'no_marker': True,'phone_icons': True}"/>
+
                                 <strong>Endereço de entrega:</strong>
-                                <div t-field="doc.partner_shipping_id" 
-                                     t-options="{'widget': 'contact','fields': ['address','name','phone'],'no_marker': True,'phone_icons': True}"/>
+                                <div t-field="doc.partner_shipping_id"
+                                    t-options="{'widget': 'contact','fields': ['address','name','phone'],'no_marker': True,'phone_icons': True}"/>
                             </t>
                         </t>
+
                     </div>
                     <div class="row mt-4 mb-4" id="informations">
                         <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2" name="informations_reference">
