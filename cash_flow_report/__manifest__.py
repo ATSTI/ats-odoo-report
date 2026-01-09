@@ -8,7 +8,7 @@
     "summary": "Financial Reports",
     "author": "ATSTi Soluções",
     "website": "",
-    "depends": ["account", "date_range", "report_xlsx"],
+    "depends": ["web", "account", "date_range", "report_xlsx"],
     "data": [
         "security/ir.model.access.csv",
         "wizard/cash_flow_wizard_view.xml",
@@ -16,10 +16,18 @@
         "reports.xml",
         "report/templates/layouts.xml",
         "report/templates/cash_flow.xml",
-        "view/report_template.xml",
         "view/report_cash_flow.xml",
     ],
-    "qweb": ["static/src/xml/report.xml"],
+    "assets": {
+        "web.assets_backend": [
+            "cash_flow_report/static/src/js/action_manager_report.js",
+            "cash_flow_report/static/src/js/client_action.js",
+            "cash_flow_report/static/src/xml/report.xml",
+        ],
+        "web.report_assets_common": [
+            "cash_flow_report/static/src/js/report.js",
+        ],
+    },
     "installable": True,
     "application": True,
     "auto_install": False,
