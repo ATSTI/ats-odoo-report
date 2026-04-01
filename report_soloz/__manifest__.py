@@ -17,6 +17,7 @@
         'report/report_orcamento_soloz.xml',
         'report/report_separacao_total.xml',
         'views/report_relatorios.xml',
+        'views/sale_order.xml',
     ],
     'installable': True,
     'application': False,

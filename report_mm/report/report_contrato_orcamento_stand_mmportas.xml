@@ -117,7 +117,7 @@
                                     <tr>
                                         <td style="background-color: #37b18c; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between;">
                                             <span>Total do Desconto:</span>
-                                            <span t-field="doc.amount_discount_value"
+                                            <span t-esc="doc.amount_discount_value or doc.discount_total"
                                                   t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'
                                                   style="color: white; font-weight: bold;"/>
                                         </td>
