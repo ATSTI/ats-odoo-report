@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="action2_report_contrato_mmportas" model="ir.actions.report">
+report_contrato_orcamento_unificado
+    <record id="actiont_report_contrato_mmportas_unificado" model="ir.actions.report">
+        <field name="name">Contrato MM Portas</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_mm.report_contrato_mmportas_unificado</field>
+        <field name="report_file">report_mm.report_contrato_mmportas_unificado</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+    </record>
+
+    <record id="action_report_contrato_mmportas_unificado_orcamento" model="ir.actions.report">
+        <field name="name">Contrato MM Portas + Orçamento</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_mm.report_contrato_orcamento_unificado</field>
+        <field name="report_file">report_mm.report_contrato_orcamento_unificado</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+    </record>
+
+
+    <!-- <record id="action2_report_contrato_mmportas" model="ir.actions.report">
         <field name="name">Contrato Concren</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
@@ -33,5 +53,5 @@
         <field name="report_name">report_mm.report_contrato_orcamento_stand_mmportas</field>
         <field name="report_file">report_mm.report_contrato_orcamento_stand_mmportas</field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
-    </record>
+    </record> -->
 </odoo>
