@@ -24,7 +24,7 @@ class CashFlowReportWizard(models.TransientModel):
     account_ids = fields.Many2many(
         comodel_name="account.account",
         string="Filtro contas",
-        domain=["|",("reconcile", "=", True), ("user_type_id", "=", 3)],
+        domain=[("reconcile", "=", True)], #"|", ("user_type_id", "=", 3))
         required=True,
     )
     hide_account_at_0 = fields.Boolean(
@@ -119,7 +119,7 @@ class CashFlowReportWizard(models.TransientModel):
 
     @api.onchange("account_ids")
     def onchange_account_ids(self):
-        return {"domain": {"account_ids": ["|", ("reconcile", "=", True), ("user_type_id", "=", 3)]}}
+        return {"domain": {"account_ids": [("reconcile", "=", True)]}} # '|', ("user_type_id", "=", 3)
 
     @api.onchange("receivable_accounts_only", "payable_accounts_only")
     def onchange_type_accounts_only(self):
@@ -127,11 +127,11 @@ class CashFlowReportWizard(models.TransientModel):
         domain = [("company_id", "=", self.company_id.id)]
         if self.receivable_accounts_only or self.payable_accounts_only:
             if self.receivable_accounts_only and self.payable_accounts_only:
-                domain += [("internal_type", "in", ("receivable", "payable"))]
+                domain += [("account_type", "in", ("asset_receivable", "liability_payable"))]
             elif self.receivable_accounts_only:
-                domain += [("internal_type", "=", "receivable")]
+                domain += [("account_type", "=", "asset_receivable")]
             elif self.payable_accounts_only:
-                domain += [("internal_type", "=", "payable")]
+                domain += [("account_type", "=", "liability_payable")]
             self.account_ids = self.env["account.account"].search(domain)
         else:
             self.account_ids = None

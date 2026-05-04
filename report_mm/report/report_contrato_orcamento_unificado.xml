@@ -20,9 +20,7 @@
                     font-size: 12px;
                     line-height: 1.3;
                     padding: 40px;
-                    padding-top: 160px; /* = header height (120) + 40 de espaçamento extra */
-                    page-break-inside: avoid;
-                    /* NÃO usar page-break-before: always aqui globalmente (evita página em branco) */
+                    padding-top: 160px;
                 }
 
                 /* Seção que deve iniciar explicitamente nova página, usar inline style:

@@ -8,7 +8,7 @@
     "summary": "Financial Reports",
     "author": "ATSTi Soluções",
     "website": "",
-    "depends": ["web", "account", "date_range", "report_xlsx"],
+    "depends": ["web", "account", "date_range", "report_xlsx", "account_payment_partner"],
     "data": [
         "security/ir.model.access.csv",
         "wizard/cash_flow_wizard_view.xml",

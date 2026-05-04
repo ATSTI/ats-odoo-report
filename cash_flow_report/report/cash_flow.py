@@ -276,7 +276,7 @@ class CashFlowReport(models.AbstractModel):
         
         account_bank = self.env["account.account"].search([
             ("id", "in", account_ids),
-            ("internal_type", "=", "liquidity"),
+            ("account_type", "=", "asset_cash"),
         ])
         copy_account_ids = account_ids
        

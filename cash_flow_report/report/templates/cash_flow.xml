@@ -176,18 +176,15 @@
                 <div class="act_as_cell" style="width: 6.0%;">Pagar</div>
                 <!--## amount_residual-->
                 <div class="act_as_cell" style="width: 6.0%;">Saldo</div>
-                <t t-if="foreign_currency">
-                    <!--## currency_name-->
+                <!--<t t-if="foreign_currency">
                     <div class="act_as_cell" style="width: 2.25%;">Cur.</div>
-                    <!--## amount_total_due_currency-->
                     <div class="act_as_cell amount" style="width: 6.57%;">
                         Cur. Valor
                     </div>
-                    <!--## amount_residual_currency-->
                     <div class="act_as_cell amount" style="width: 6.57%;">
                         Cur. Saldo
                     </div>
-                </t>
+                </t>-->
             </div>
         </div>
     </template>
@@ -239,30 +236,24 @@
             <div class="act_as_cell amount">
                 <span t-esc="saldo_ini" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
             </div>
-            <t t-if="foreign_currency">
+            <!--<t t-if="foreign_currency">
                 <t t-if="line['currency_id']">
-                    <!--## currency_name-->
                     <div class="act_as_cell amount">
                         <span t-esc="line['currency_name']" />
                     </div>
-                    <!--## amount_total_due_currency-->
                     <div class="act_as_cell amount">
                         <span t-esc="line['amount_currency']" t-options="{'widget': 'monetary', 'display_currency': env['res.currency'].browse(line['currency_id'])}" />
                     </div>
-                    <!--## amount_residual_currency-->
                     <div class="act_as_cell amount">
                         <span t-esc="line['amount_residual_currency']" t-options="{'widget': 'monetary', 'display_currency': env['res.currency'].browse(line['currency_id'])}" />
                     </div>
                 </t>
                 <t t-if="not line['currency_id']">
-                    <!--## currency_name-->
                     <div class="act_as_cell" />
-                    <!--## amount_total_due_currency-->
                     <div class="act_as_cell" />
-                    <!--## amount_residual_currency-->
                     <div class="act_as_cell" />
                 </t>
-            </t>
+            </t>-->
         </div>
     </template>
     <template id="cash_flow_report.cash_flow_report_ending_cumul">
