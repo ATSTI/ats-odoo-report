@@ -170,20 +170,27 @@
                                                 </div>
 
                                                 <div style="page-break-inside: avoid; margin-top:40px;">
-                            <table style="width:100%; font-size:12px; text-align:center; border:none; border-collapse:collapse;">
-                                <tr style="border:none;">
-                                    <td style="width:50%; padding-top:40px; border:none;">
-                                        ______________________________________________<br/>
-                                        Local e Data
-                                    </td>
-
-                                    <td style="width:50%; padding-top:40px; border:none;">
-                                        ______________________________________________<br/>
-                                        Cliente: <span t-field="o.partner_id.name"/><br/>
-                                        CPF: <span t-field="o.partner_id.vat"/>
-                                    </td>
-                                </tr>
-                            </table>
+                                                    
+                             <table style="width:100%; font-size:12px; text-align:center; border:none; border-collapse:collapse;">
+                              <tr style="border:none;">
+                                  <td style="width:50%; padding-top:40px; border:none;">
+                                      ______________________________________________<br/>
+                                      Local e Data
+                                  </td>
+                          
+                                  <td style="width:50%; padding-top:40px; border:none;">
+                                      ______________________________________________<br/>
+                                      Cliente: <span t-field="o.partner_id.name"/><br/>
+                          
+                                      <t t-if="doc.partner_id.vat">
+                                          CPF: <span t-field="o.partner_id.vat"/>
+                                      </t>
+                                      <t t-else="">
+                                          CPF: <span t-field="o.partner_id.commercial_partner_id.vat"/>
+                                      </t>
+                                  </td>
+                              </tr>
+                          </table>
 
                             <div style="width:100%; text-align:center; font-size:12px; margin-top:40px;">
                                 ______________________________________________<br/>
