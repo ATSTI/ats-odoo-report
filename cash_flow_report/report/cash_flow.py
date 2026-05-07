@@ -45,11 +45,16 @@ class CashFlowReport(models.AbstractModel):
         company_id,
         date_from,
         tipo,
+        target_move
     ):
-
-        domain = self._get_move_lines_domain_not_reconciled(
-            company_id, account_ids, partner_ids, only_posted_moves, date_from, tipo
-        )
+        if target_move == "all_reconciled":
+            domain = self._get_move_lines_domain_reconciled(
+                company_id, account_ids, partner_ids, only_posted_moves, date_from, tipo
+            )
+        else:
+            domain = self._get_move_lines_domain_not_reconciled(
+                company_id, account_ids, partner_ids, only_posted_moves, date_from, tipo
+            )
         ml_fields = [
             "id",
             "name",
@@ -102,12 +107,27 @@ class CashFlowReport(models.AbstractModel):
                     partner_ids,
                     only_posted_moves,
                 )
-        move_lines = [
-            move_line
-            for move_line in move_lines
-            if move_line["date_maturity"] <= date_at_object
-            and not float_is_zero(move_line["amount_residual"], precision_digits=2)
-        ]
+
+        if target_move == "all_reconciled":
+            move_lines = [
+                move_line
+                for move_line in move_lines
+                if (move_line.get("date_maturity") or date_at_object) <= date_at_object
+                and float_is_zero(
+                    move_line["amount_residual"],
+                    precision_digits=2
+                )
+            ]
+        else:
+            move_lines = [
+                move_line
+                for move_line in move_lines
+                if (move_line.get("date_maturity") or date_at_object) <= date_at_object
+                and not float_is_zero(
+                    move_line["amount_residual"],
+                    precision_digits=2
+                )
+            ]
 
         open_items_move_lines_data = {}
         balance = 0
@@ -134,6 +154,10 @@ class CashFlowReport(models.AbstractModel):
 
             # Move line update
             original = 0
+            line_value = move_line["amount_residual"]
+
+            if target_move == "all_reconciled":
+                line_value = move_line["debit"] - move_line["credit"]
 
             if not float_is_zero(move_line["credit"], precision_digits=2):
                 original = move_line["credit"] * (-1)
@@ -184,6 +208,7 @@ class CashFlowReport(models.AbstractModel):
                     if move_line["currency_id"]
                     else False,
                     "amount_balance": balance,
+                    "report_value": line_value,
                 }
             )
 
@@ -264,6 +289,7 @@ class CashFlowReport(models.AbstractModel):
         company_id = data["company_id"]
         account_ids = data["account_ids"]
         partner_ids = data["partner_ids"]
+        target_move = data["target_move"]
         date_at = data["date_at"]
         date_at_object = datetime.strptime(date_at, "%Y-%m-%d").date()
         date_from = data["date_from"]
@@ -297,6 +323,7 @@ class CashFlowReport(models.AbstractModel):
             company_id,
             date_from_object,
             tipo,
+            target_move,
         )
 
         total_amount = self._calculate_amounts(open_items_move_lines_data)

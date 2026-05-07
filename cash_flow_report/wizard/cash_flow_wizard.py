@@ -16,7 +16,7 @@ class CashFlowReportWizard(models.TransientModel):
     date_at = fields.Date(string="Data final", required=True, default=fields.Date.context_today)
     date_from = fields.Date(string="Data inicio")
     target_move = fields.Selection(
-        [("posted", "Todas entradas postadas"), ("all", "Todas Entradas")],
+        [("posted", "Todas entradas postadas"), ("all", "Todas Entradas"), ("all_reconciled", "Todas Entradas Conciliadas")],
         string="Movimentos",
         required=True,
         default="posted",

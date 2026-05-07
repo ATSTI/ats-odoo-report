@@ -45,20 +45,20 @@
                         <t t-set="date_maturity" t-value="0.0" />
                         <!-- Display account move lines -->
                         <t t-foreach="Open_Items[account_id]" t-as="line">
-                            <t t-set="saldo_ini" t-value="total_geral + saldo_ini + line['amount_residual']" />
+                            <t t-set="saldo_ini" t-value="total_geral + saldo_ini + line['report_value']" />
                             <t t-set="total_geral" t-value="0.0" />
                             <t t-set="credit" t-value="0.0" />
                             <t t-set="debit" t-value="0.0" />
-                            <t t-if="line['amount_residual'] &gt; 0">
-                                <t t-set="debit" t-value="line['amount_residual']" />
-                                <t t-set="balance_debit" t-value="balance_debit + line['amount_residual']" />
-                                <t t-set="total_balance_debit" t-value="total_balance_debit + line['amount_residual']" />
+                            <t t-if="line['report_value'] &gt; 0">
+                                <t t-set="debit" t-value="line['report_value']" />
+                                <t t-set="balance_debit" t-value="balance_debit + line['report_value']" />
+                                <t t-set="total_balance_debit" t-value="total_balance_debit + line['report_value']" />
 
                             </t>
-                            <t t-if="line['amount_residual'] &lt; 0">
-                                <t t-set="credit" t-value="line['amount_residual']" />
-                                <t t-set="balance_credit" t-value="balance_credit + line['amount_residual']" />
-                                <t t-set="total_balance_credit" t-value="total_balance_credit + line['amount_residual']" />
+                            <t t-if="line['report_value'] &lt; 0">
+                                <t t-set="credit" t-value="line['report_value']" />
+                                <t t-set="balance_credit" t-value="balance_credit + line['report_value']" />
+                                <t t-set="total_balance_credit" t-value="total_balance_credit + line['report_value']" />
                             </t>
                             <t t-call="cash_flow_report.cash_flow_report_lines" />
 

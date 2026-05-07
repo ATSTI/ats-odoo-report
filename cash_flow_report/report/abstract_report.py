@@ -16,15 +16,40 @@ class CashFlowReportAbstract(models.AbstractModel):
             ("account_id", "in", account_ids),
             ("company_id", "=", company_id),
             ("reconciled", "=", False),
-            ("move_id.financial_move_line_ids", "!=", False)
+            ("date_maturity", ">=", date_from)
         ]
         if partner_ids:
-            domain += [("partner_id", "in", partner_ids)]
+            domain.append(("partner_id", "in", partner_ids))
+
         if only_posted_moves:
-            domain += [("move_id.state", "=", "posted")]
+            domain.append(("move_id.state", "=", "posted"))
         else:
-            domain += [("move_id.state", "in", ["posted", "draft"])]
-        domain += [("date_maturity", ">=", date_from)]
+            domain.append(("move_id.state", "in", ["posted", "draft"]))
+
+        # Garante que o move tenha financial_move_line_ids
+        domain.append(("move_id.financial_move_line_ids", "!=", False))
+            
+        return domain
+    
+    @api.model
+    def _get_move_lines_domain_reconciled(
+        self, company_id, account_ids, partner_ids, only_posted_moves, date_from, tipo
+    ):
+        domain = [
+            ("account_id", "in", account_ids),
+            ("company_id", "=", company_id),
+            "|",
+            ("reconciled", "=", True),
+            ("move_id.payment_state", "=", "paid"),
+            ("date_maturity", ">=", date_from)
+        ]
+        if partner_ids:
+            domain.append(("partner_id", "in", partner_ids))
+
+        if only_posted_moves:
+            domain.append(("move_id.state", "=", "posted"))
+        else:
+            domain.append(("move_id.state", "in", ["posted", "draft"]))
             
         return domain
 
