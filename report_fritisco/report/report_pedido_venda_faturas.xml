@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_pedido_venda" model="ir.actions.report">
+        <field name="name">Pedido de Venda</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>  
+        <field name="report_name">report_fritisco.report_pedido_venda</field>
+        <field name="report_file">report_fritisco.report_pedido_venda</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_pedido_venda">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <t t-call="report_fritisco.report_pedido_venda_document"/>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_pedido_venda_document">
+        <div class="page" style="font-family: Arial, sans-serif; font-size: 9pt; color: #000;">
+            <div style="text-align: center; margin-bottom: 6px;">
+                <span style="font-size: 14pt; font-weight: bold; letter-spacing: 1px;">
+                    PEDIDO DE VENDA N°:
+                    <span t-field="o.name"/>
+                </span>
+            </div>
+            <hr style="border: none; border-top: 1.5px solid black; margin: 4px 0;"/>
+            <table style="width: 100%; font-size: 8.5pt; border-collapse: collapse; margin-bottom: 4px;">
+                <tr>
+                    <td style="width: 16%; padding: 1px 2px;"><strong>CLIENTE:</strong></td>
+                    <td style="width: 52%; padding: 1px 2px;">
+                        <span t-field="o.partner_id.name"/>
+                    </td>
+                    <td style="width: 12%; padding: 1px 2px; text-align: right;"><strong>FONE:</strong></td>
+                    <td style="width: 20%; padding: 1px 2px;">
+                        <span t-field="o.partner_id.phone"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 1px 2px;"><strong>ENDEREÇO:</strong></td>
+                    <td colspan="3" style="padding: 1px 2px;">
+                        <span t-field="o.partner_id.street"/> -
+                        <span t-field="o.partner_id.city"/> -
+                        <span t-field="o.partner_id.state_id.code"/> -
+                        Cep: <span t-field="o.partner_id.zip"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 1px 2px;"><strong>CNPJ/CPF:</strong></td>
+                    <td style="padding: 1px 2px;">
+                        <span t-field="o.partner_id.vat"/>
+                    </td>
+                    <td style="padding: 1px 2px; text-align: right;"><strong>I.E.:</strong></td>
+                    <td style="padding: 1px 2px;">
+                        <span t-field="o.partner_id.l10n_br_ie_code"
+                              t-options='{"widget": "char"}'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 1px 2px;"><strong>ENDEREÇO DE ENTREGA:</strong></td>
+                    <td colspan="2" style="padding: 1px 2px;">
+                        <t t-if="o.partner_shipping_id and o.partner_shipping_id != o.partner_id">
+                            <span t-field="o.partner_shipping_id.street"/> -
+                            <span t-field="o.partner_shipping_id.city"/> -
+                            <span t-field="o.partner_shipping_id.state_id.code"/> -
+                            Cep: <span t-field="o.partner_shipping_id.zip"/>
+                        </t>
+                        <t t-else="">
+                            <span t-field="o.partner_id.street"/> -
+                            <span t-field="o.partner_id.city"/> -
+                            <span t-field="o.partner_id.state_id.code"/> -
+                            Cep: <span t-field="o.partner_id.zip"/>
+                        </t>
+                    </td>
+                    <td style="padding: 1px 2px; text-align: right;">
+                        <strong>Data Emissão:</strong><br/>
+                        <span t-field="o.invoice_date" t-options='{"widget": "date"}'/>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border: none; border-top: 1.5px solid black; margin: 4px 0;"/>
+            <table style="width: 100%; font-size: 8pt; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f0f0f0;">
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: center; width: 7%;">Qtde</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: left;   width: 43%;">Descrição dos Produtos</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: center; width: 6%;">Un</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: right;  width: 11%;">R$ Unit</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: right;  width: 11%;">R$ Total</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: right;  width: 11%;">R$ Desc</th>
+                        <th style="border: 1px solid #000; padding: 3px 4px; text-align: right;  width: 11%;">R$ Total Liq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="o.invoice_line_ids" t-as="line">
+                        <t t-if="line.display_type == 'product'">
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: center;">
+                                    <span t-field="line.quantity"
+                                          t-options='{"widget": "float", "precision": 1}'/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px;">
+                                    <span t-field="line.product_id.name"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: center;">
+                                    <span t-field="line.product_uom_id.name"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: right;">
+                                    <span t-field="line.price_unit"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: right;">
+                                    <span t-esc="'%.2f' % (line.quantity * line.price_unit)"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: right;">
+                                    <t t-if="line.discount">
+                                        <span t-esc="'%.2f' % (line.quantity * line.price_unit * line.discount / 100.0)"/>
+                                    </t>
+                                    <t t-else="">0,00</t>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 2px 4px; text-align: right;">
+                                    <span t-field="line.price_subtotal"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="line.display_type == 'line_section'">
+                            <tr>
+                                <td colspan="7" style="border: 1px solid #000; padding: 2px 4px; font-weight: bold; background-color: #f9f9f9;">
+                                    <span t-field="line.name"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="line.display_type == 'line_note'">
+                            <tr>
+                                <td colspan="7" style="border: 1px solid #000; padding: 2px 4px; font-style: italic;">
+                                    <span t-field="line.name"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+
+            <hr style="border: none; border-top: 1.5px solid black; margin: 6px 0 4px 0;"/>
+
+            <table style="width: 100%; font-size: 9pt; border-collapse: collapse; margin-top: 4px;">
+                <tr>
+                    <td style="width: 55%;"></td>
+                    <td style="width: 25%; text-align: right; padding: 2px 6px;">
+                        <strong>Subtotal:</strong>
+                    </td>
+                    <td style="width: 20%; text-align: right; padding: 2px 6px; border-bottom: 1px solid #000;">
+                        <span t-field="o.amount_untaxed"
+                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                </tr>
+                <t t-if="o.amount_tax">
+                    <tr>
+                        <td></td>
+                        <td style="text-align: right; padding: 2px 6px;">
+                            <strong>Impostos:</strong>
+                        </td>
+                        <td style="text-align: right; padding: 2px 6px; border-bottom: 1px solid #000;">
+                            <span t-field="o.amount_tax"
+                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right; padding: 3px 6px; font-weight: bold; font-size: 10pt;">
+                        TOTAL:
+                    </td>
+                    <td style="text-align: right; padding: 3px 6px; font-weight: bold; font-size: 10pt;
+                                border: 1.5px solid #000;">
+                        <span t-field="o.amount_total"
+                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                </tr>
+            </table>
+
+            <t t-if="o.narration">
+                <hr style="border: none; border-top: 1px solid black; margin: 10px 0 4px 0;"/>
+                <p style="font-size: 8pt; margin: 0;">
+                    <strong>Observações:</strong>
+                    <span t-field="o.narration"/>
+                </p>
+            </t>
+
+            <!-- <table style="width: 100%; font-size: 8pt; margin-top: 40px;" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td style="width: 45%; text-align: center; border-top: 1px solid #000; padding-top: 4px;">
+                        Assinatura do Cliente
+                    </td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 45%; text-align: center; border-top: 1px solid #000; padding-top: 4px;">
+                        Assinatura do Vendedor / Entregador
+                    </td>
+                </tr>
+            </table> -->
+        </div>
+    </template>
+
+</odoo>

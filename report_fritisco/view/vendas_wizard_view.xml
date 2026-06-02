@@ -1,0 +1,58 @@
+<odoo>
+
+    <record id="view_report_vendas_wizard_form1" model="ir.ui.view">
+        <field name="name">report.vendas.wizard.form</field>
+        <field name="model">report.vendas.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Relatório de Vendas">
+
+                <group>
+                    <group>
+                        <field name="vendedor_id"/>
+                    </group>
+
+                    <group>
+                        <field name="data_inicial" required="1"/>
+                        <field name="data_final" required="1"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_print_report"
+                            string="Imprimir Relatório"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button string="Cancelar"
+                            special="cancel"
+                            class="btn-secondary"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_report_vendas_wizard" model="ir.actions.act_window">
+        <field name="name">Relatório de Vendas</field>
+        <field name="res_model">report.vendas.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+    <record id="report_vendas_wizard" model="ir.actions.report">
+        <field name="name">Relatório de Vendas</field>
+        <field name="model">report.vendas.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_fritisco.report_vendas_template</field>
+        <field name="report_file">report_fritisco.report_vendas_template</field>
+        <field name="print_report_name">'Relatorio_Vendas'</field>
+    </record>
+
+    <menuitem
+    id="menu_report_vendas"
+    name="Relatório de vendas"
+    parent="menu_relatorios_fritisco"
+    action="action_report_vendas_wizard"
+    sequence="110"/>
+
+</odoo>

@@ -1,0 +1,113 @@
+<odoo>
+    <template id="report_vendas_template">
+        <t t-call="web.external_layout">
+            <main>
+
+                <div class="page">
+                <style>
+                    table {
+                        page-break-inside: auto;
+                    }
+
+                    tr {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
+
+                    thead {
+                        display: table-header-group;
+                    }
+
+                    tfoot {
+                        display: table-footer-group;
+                    }
+
+                    td, th {
+                        page-break-inside: avoid;
+                    }
+                </style>
+
+                    <h2 style="text-align:center;">
+                        Relatório de Vendas por Vendedor
+                    </h2>
+
+                    <table style="width:100%; margin-bottom:20px;">
+                        <tr>
+                            <td>
+                                <strong>Vendedor(es):</strong><br/>
+                                <span t-esc="', '.join(vendedor.mapped('name'))"/>
+                            </td>
+
+                            <td>
+                                <strong>Data Inicial:</strong><br/>
+                                <span t-esc="data_inicial"/>
+                            </td>
+
+                            <td>
+                                <strong>Data Final:</strong><br/>
+                                <span t-esc="data_final"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:25%;">Cliente</th>
+                                <th style="width:20%;">Pedido</th>
+                                <th style="width:15%;">Parcela</th>
+                                <th style="width:20%;">Vencimento</th>
+                                <th style="width:20%;" class="text-end">
+                                    Valor
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <t t-set="cliente_atual" t-value="''"/>
+                            <t t-foreach="docs" t-as="l">
+                                <t t-if="cliente_atual != l['cliente']">
+
+                                    <t t-set="cliente_atual"
+                                       t-value="l['cliente']"/>
+
+                                    <tr>
+                                        <td colspan="5"
+                                            style="
+                                                background:#e9ecef;
+                                                font-weight:bold;
+                                                font-size:14px;
+                                            ">
+                                            Cliente:
+                                            <span t-esc="l['cliente']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td></td>
+
+                                    <td>
+                                        <span t-esc="l['pedido']"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="l['parcela']"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="l['vencimento']"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(l['valor_parcela'])"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </t>
+    </template>
+</odoo>
