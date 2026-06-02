@@ -1,9 +1,10 @@
 <odoo>
 <template id="report_comissao_template">
     <t t-call="web.external_layout">
-    <main>
-        <div class="page">
-        <style>
+        <main>
+            <div class="page">
+
+                <style>
                     table {
                         page-break-inside: auto;
                     }
@@ -25,97 +26,112 @@
                         page-break-inside: avoid;
                     }
                 </style>
-            <div style="margin-bottom:20px;">
-            <h2 style="text-align:center;">
-                Relatório de Comissão
-            </h2>
 
-            <table class="table table-sm" style="margin-top:15px;">
-                <tr>
-                    <td>
-                        <strong>Vendedor</strong><br/>
-                        <span t-esc="', '.join(vendedor.mapped('name'))"/>
-                    </td>
+                <div style="margin-bottom:20px;">
+                    <h2 style="text-align:center;">
+                        Relatório de Comissão
+                    </h2>
 
-                    <td>
-                        <strong>Data Inicial</strong><br/>
-                        <span t-esc="data_inicial"/>
-                    </td>
+                    <table class="table table-sm" style="margin-top:15px;">
+                        <tr>
+                            <td>
+                                <strong>Vendedor</strong><br/>
+                                <span t-esc="', '.join(vendedor.mapped('name'))"/>
+                            </td>
 
-                    <td>
-                        <strong>Data Final</strong><br/>
-                        <span t-esc="data_final"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                            <td>
+                                <strong>Data Inicial</strong><br/>
+                                <span t-esc="data_inicial"/>
+                            </td>
 
-            <table class="table table-sm table-bordered">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Nota Fiscal</th>
-                        <th>Emissão</th>
-                        <th class="text-end">Venda (R$)</th>
-                        <th class="text-end">% Comissão</th>
-                        <th class="text-end">Comissão (R$)</th>
-                    </tr>
-                </thead>
+                            <td>
+                                <strong>Data Final</strong><br/>
+                                <span t-esc="data_final"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                <tbody>
-                    <tr t-foreach="docs" t-as="l">
-                        <td>
-                            <span t-esc="l['cliente']"/>
-                        </td>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Nota Fiscal</th>
+                            <th>Emissão</th>
 
-                        <td>
-                            <span t-esc="l['nota']"/>
-                        </td>
+                           <th class="text-center">Parcela</th>
+                            <th>Data Pagamento</th>
 
-                        <td>
-                            <span t-esc="l['emissao']"/>
-                        </td>
+                            <th class="text-end">Valor Recebido (R$)</th>
+                            <th class="text-end">% Comissão</th>
+                            <th class="text-end">Comissão (R$)</th>
+                        </tr>
+                    </thead>
 
-                        <td class="text-end">
-                            <span t-esc="'{:,.2f}'.format(l['valor_venda'])"/>
-                        </td>
+                    <tbody>
+                        <tr t-foreach="docs" t-as="l">
 
-                        <td class="text-end">
-                            <span t-esc="l['percentual']"/>%
-                        </td>
+                            <td>
+                                <span t-esc="l['cliente']"/>
+                            </td>
 
-                        <td class="text-end">
-                            <span t-esc="'{:,.2f}'.format(l['comissao'])"/>
-                        </td>
-                    </tr>
-                </tbody>
+                            <td>
+                                <span t-esc="l['nota']"/>
+                            </td>
 
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end">
-                            <strong>Totais:</strong>
-                        </td>
+                            <td>
+                                <span t-esc="l['emissao']"/>
+                            </td>
 
-                        <td class="text-end">
-                            <strong>
-                                <span t-esc="'{:,.2f}'.format(total_vendido)"/>
-                            </strong>
-                        </td>
+                           <td class="text-center">
+                                <span t-esc="l['parcela']"/>
+                            </td>
 
-                        <td></td>
+                            <td>
+                                <span t-esc="l['data_pagamento'].strftime('%d/%m/%Y')"/>
+                            </td>
 
-                        <td class="text-end">
-                            <strong>
-                                <span t-esc="'{:,.2f}'.format(total_comissao)"/>
-                            </strong>
-                        </td>
-                    </tr>
-                </tfoot>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(l['valor_pago'])"/>
+                            </td>
 
-            </table>
+                            <td class="text-end">
+                                <span t-esc="l['percentual']"/>%
+                            </td>
 
-        </div>
-    </main>
+                            <td class="text-end">
+                                <span t-esc="'{:,.2f}'.format(l['comissao'])"/>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-end">
+                                <strong>Totais:</strong>
+                            </td>
+
+                            <td class="text-end">
+                                <strong>
+                                    <span t-esc="'{:,.2f}'.format(total_vendido)"/>
+                                </strong>
+                            </td>
+
+                            <td></td>
+
+                            <td class="text-end">
+                                <strong>
+                                    <span t-esc="'{:,.2f}'.format(total_comissao)"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+            </div>
+        </main>
     </t>
 </template>
 </odoo>
