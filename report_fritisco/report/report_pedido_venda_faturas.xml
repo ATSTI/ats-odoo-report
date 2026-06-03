@@ -148,8 +148,6 @@
 
                 <table style="width: 100%; font-size: 8.5pt; margin-top: 10px;">
                     <tr>
-
-                        <!-- ESQUERDA -->
                         <td style="width: 55%; vertical-align: top;">
 
                             <div>
@@ -159,8 +157,8 @@
 
                             <div>
                                 <strong>Modo de Pagamento:</strong>
-                                <t t-if="o.invoice_payment_term_id">
-                                    <span t-field="o.invoice_payment_term_id.name"/>
+                                <t t-if="o.payment_mode_id">
+                                    <span t-field="o.payment_mode_id"/>
                                 </t>
                                 <t t-else="">
                                     <span>-</span>
@@ -171,17 +169,11 @@
                                 <strong>Data de Vencimento:</strong>
                                 <span t-field="o.invoice_date_due" t-options='{"widget": "date"}'/>
                             </div>
-
                         </td>
-
-                        <!-- DIREITA (ESPAÇO PRA CASAR COM TABELA DE TOTAL) -->
                         <td style="width: 45%;"></td>
-
                     </tr>
                 </table>
-
             </t>
-
             <hr style="border: none; border-top: 1.5px solid black; margin: 6px 0 4px 0;"/>
 
             <table style="width: 100%; font-size: 9pt; border-collapse: collapse; margin-top: 4px;">

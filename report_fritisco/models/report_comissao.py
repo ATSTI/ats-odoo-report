@@ -7,13 +7,16 @@ class ReportComissao(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
+
         data = data or {}
+
         vendedor_ids = data.get('vendedor_ids', [])
         vendedor = self.env['res.users'].browse(vendedor_ids)
+
         domain = [
             ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
-            ('payment_state', '=', 'paid'),  
+            ('payment_state', '=', 'paid'),
         ]
 
         if vendedor_ids:
@@ -21,26 +24,40 @@ class ReportComissao(models.AbstractModel):
 
         invoices = self.env['account.move'].search(
             domain,
-            order='invoice_user_id, invoice_date'
+            order='invoice_user_id, partner_id, invoice_date'
         )
 
         linhas = []
         total_vendido = 0.0
         total_comissao = 0.0
+
         comissao_percentual = float(data.get('comissao', 5.0) or 0.0)
+
         data_inicial = fields.Date.to_date(data.get('data_inicial')) if data.get('data_inicial') else None
         data_final = fields.Date.to_date(data.get('data_final')) if data.get('data_final') else None
 
         for invoice in invoices:
-            payments = invoice._get_reconciled_payments().sorted(
-                key=lambda p: p.date or fields.Date.today()
+
+            receivable_lines = invoice.line_ids.filtered(   
+                lambda l: l.account_id.account_type == 'asset_receivable'
             )
+
+            partials = self.env['account.partial.reconcile'].search([
+                '|',
+                ('debit_move_id', 'in', receivable_lines.ids),
+                ('credit_move_id', 'in', receivable_lines.ids),
+            ], order='id')
 
             parcela_num = 0
 
-            for payment in payments:
+            for p in partials:
 
-                payment_date = payment.date
+                debit = p.debit_move_id
+                credit = p.credit_move_id
+                payment_move = debit.move_id if debit.move_id.move_type == 'entry' else credit.move_id
+                payment_date = payment_move.date if payment_move else False
+                if not payment_date:
+                    continue
 
                 if data_inicial and payment_date < data_inicial:
                     continue
@@ -50,18 +67,18 @@ class ReportComissao(models.AbstractModel):
 
                 parcela_num += 1
 
-                valor_pago = abs(payment.amount)
-
+                valor_pago = abs(p.amount)
                 comissao = valor_pago * (comissao_percentual / 100.0)
 
                 linhas.append({
                     'vendedor': invoice.invoice_user_id.name,
                     'cliente': invoice.partner_id.name,
-                    'nota': invoice.name,
+                    'fatura': invoice.name,
                     'emissao': invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else '',
-
+                    'forma_pagamento': invoice.payment_mode_id.name if invoice.payment_mode_id else '',
                     'parcela': parcela_num,
-                    'data_pagamento': payment_date,
+
+                    'data_pagamento': payment_date.strftime('%d/%m/%Y'),
 
                     'valor_pago': valor_pago,
                     'percentual': comissao_percentual,

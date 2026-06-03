@@ -56,10 +56,11 @@
                     <thead>
                         <tr>
                             <th>Cliente</th>
-                            <th>Nota Fiscal</th>
+                            <th>Fatura</th>
                             <th>Emissão</th>
 
                            <th class="text-center">Parcela</th>
+                           <th class="text-center">Forma de pagamento</th>
                             <th>Data Pagamento</th>
 
                             <th class="text-end">Valor Recebido (R$)</th>
@@ -76,7 +77,7 @@
                             </td>
 
                             <td>
-                                <span t-esc="l['nota']"/>
+                                <span t-esc="l['fatura']"/>
                             </td>
 
                             <td>
@@ -87,8 +88,12 @@
                                 <span t-esc="l['parcela']"/>
                             </td>
 
+                            <td class="text-center">
+                                <span t-esc="l['forma_pagamento']"/>
+                            </td>
+
                             <td>
-                                <span t-esc="l['data_pagamento'].strftime('%d/%m/%Y')"/>
+                                <span t-esc="l['data_pagamento']"/>              
                             </td>
 
                             <td class="text-end">
