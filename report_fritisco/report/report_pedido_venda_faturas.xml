@@ -142,6 +142,16 @@
                         </t>
                     </t>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 2px 4px; text-align: center; font-weight: bold;">
+                        <span t-esc="'%.0f' % sum(line.quantity for line in o.invoice_line_ids if line.display_type == 'product')"/>
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000; padding: 2px 4px; font-weight: bold;">
+                        Total de Volumes
+                    </td>
+                </tr>
+            </tfoot>
             </table>
             
             <t t-if="o.invoice_payment_term_id or o.invoice_date_due or o.invoice_payment_term_id">
