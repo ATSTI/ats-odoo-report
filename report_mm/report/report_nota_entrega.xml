@@ -1,77 +1,471 @@
 <odoo>
+
     <template id="report_deliveryslip_inherit_sections"
               inherit_id="stock.report_delivery_document">
 
-        <xpath expr="//table[@name='stock_move_table']/tbody" position="replace">
-            <tbody>
-                <t t-set="grouped_moves" t-value="o.get_moves_grouped_by_section()"/>
-                <t t-foreach="grouped_moves.items()" t-as="section_data">
+        <xpath expr="//t[@t-call='web.external_layout']"
+               position="replace">
 
-                    <tr style="background-color:#f5f5f5;">
-                        <td colspan="99" style="padding-bottom:12px;">
-                            <strong t-esc="section_data[0]"/>
-                            <div style="margin-top:18px; border-bottom:1px solid #000; width:100%; height:20px;"/>
-                        </td>
-                    </tr>
+            <t t-call="web.external_layout">
 
-                    <tr t-foreach="section_data[1]" t-as="move">
-                        <td>
-                            <span t-field="move.product_id"/>
-                            <p t-if="move.description_picking
-                                    and move.description_picking != move.product_id.name
-                                    and move.description_picking != move.product_id.display_name">
-                                <span t-field="move.description_picking"/>
-                            </p>
-                        </td>
-                        <td>
-                            <span t-field="move.product_uom_qty"/>
-                            <span t-field="move.product_uom"/>
-                        </td>
-                        <td>
-                            <span t-field="move.quantity_done"/>
-                            <span t-field="move.product_uom"/>
-                        </td>
-                    </tr>
+                <t t-set="o"
+                   t-value="o.with_context(lang=o._get_report_lang())"/>
 
-                </t>
-            </tbody>
-        </xpath>
+                <t t-set="partner"
+                   t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                
+               <div class="page">
 
-        <!-- ===== TABELA 2: Entregue (state == done), sem pacotes, sem serial ===== -->
-        <xpath expr="//t[@name='aggregated_move_lines']" position="replace">
-            <t t-set="grouped_moves" t-value="o.get_moves_grouped_by_section()"/>
-            <t t-foreach="grouped_moves.items()" t-as="section_data">
+                    <style>
+                        .rp-info table, .rp-info tr, .rp-info td {
+                            border: none !important;
+                            border-collapse: collapse !important;
+                            border-spacing: 0 !important;
+                            background: white !important;
+                        }
+                        .rp-info table { width: 100%; }
+                    </style>
 
-                <tr style="background-color:#f5f5f5;">
-                    <td colspan="99" style="padding-bottom:12px;">
-                        <strong t-esc="section_data[0]"/>
-                        <div style="margin-top:18px; border-bottom:1px solid #000; width:100%; height:20px;"/>
-                    </td>
-                </tr>
+                    <div class="rp-info">
 
-                <tr t-foreach="section_data[1]" t-as="move">
-                    <td>
-                        <span t-field="move.product_id"/>
-                        <p t-if="move.description_picking
-                                and move.description_picking != move.product_id.name
-                                and move.description_picking != move.product_id.display_name">
-                            <span t-field="move.description_picking"/>
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td>Cliente: <span t-field="o.partner_id.legal_name"/></td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td>End: <span t-field="o.partner_id.street"/></td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td style="width:35%;">Nº: <span t-field="o.partner_id.street_number"/></td>
+                                <td style="width:65%;">Bairro: <span t-field="o.partner_id.district"/></td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:20px;">
+                            <tr>
+                                <td style="width:60%;">Cidade: <span t-field="o.partner_id.city"/></td>
+                                <td style="width:40%;">CEP: <span t-field="o.partner_id.zip"/></td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td style="width:50%;">Data Prevista Medição Final: ___/___/_____</td>
+                                <td style="width:50%;">Data Medição Final: ___/___/_____</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:20px;">
+                            <tr>
+                                <td style="width:50%;">Data Prevista da Instalação: ___/___/_____</td>
+                                <td style="width:50%;">Data Instalação: De ___/___/_____ A ___/___/_____</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td>Cor do Kit: __________</td>
+                                <td>Modelo: __________________</td>
+                                <td>Fornecedor: __________</td>
+                                <td>QT: ______</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:15px;">
+                            <tr>
+                                <td>Cor do Kit: __________</td>
+                                <td>Modelo: __________________</td>
+                                <td>Fornecedor: __________</td>
+                                <td>QT: ______</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:15px;">
+                            <tr>
+                                <td>QT. Giro: __________</td>
+                                <td>QT. Correr: __________</td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-bottom:12px;">
+                            Corte da Guarnição:
+                            45º ( ) &#160;&#160;
+                            90º ( ) .
+                            Tamanho:
+                            3( ) &#160;
+                            5( ) &#160;
+                            7( ) &#160;
+                            Plus ( )
+                        </div>
+
+                        <div style="margin-bottom:20px;">
+                            Guarnições Interna no banheiro:
+                            Até chão:( ) &#160;&#160;
+                            Até soleira:( )
+                        </div>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td>Cor da Ferragem: __________</td>
+                                <td>Modelo: __________</td>
+                                <td>Fornecedor: __________</td>
+                                <td>QT: ______</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:20px;">
+                            <tr>
+                                <td>Fechadura Eletrônica: __________</td>
+                                <td>Modelo: __________</td>
+                                <td>Fornecedor: __________</td>
+                                <td>QT: ______</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:10px;">
+                            <tr>
+                                <td style="width:50%;">Data compra kits: ___/___/_____</td>
+                                <td style="width:50%;">Data prevista entrega: ___/___/_____</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:25px;">
+                            <tr>
+                                <td style="width:50%;">Data compra ferragens: ___/___/_____</td>
+                                <td style="width:50%;">Data prevista da entrega: ___/___/_____</td>
+                            </tr>
+                        </table>
+
+                        <table style="margin-bottom:15px;">
+                            <tr>
+                                <td style="width:80%;"><strong>Pendências:</strong></td>
+                                <td style="width:20%; text-align:right;">Data de retorno: ___/___/_____</td>
+                            </tr>
+                        </table>
+
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px; margin-bottom:15px;"></div>
+
+                        <div style="margin-bottom:5px;"><strong>OBS:</strong></div>
+
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+                        <div style="border-bottom:1px solid #000; height:18px;"></div>
+
+                    </div>
+                </div>  
+               <div class="page" style="page-break-before: always;">
+
+                    <div class="row mt32 mb32">
+                        <div t-if="o.picking_type_id.code == 'outgoing'" class="col-6">
+                            <strong>Endereço de Entrega:</strong>
+                            <div t-field="o.partner_id"
+                                t-options='{
+                                    "widget": "contact",
+                                    "fields": ["address", "name", "phone"],
+                                    "no_marker": True,
+                                    "phone_icons": True
+                                }'/>
+                        </div>
+                    </div>
+                    <h2>
+                        <span t-field="o.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto" t-if="o.origin">
+                            <strong>Pedido:</strong>
+                            <p t-field="o.origin"/>
+                        </div>
+                        <div class="col-auto" t-if="o.scheduled_date">
+                            <strong>Data de Envio:</strong>
+                            <p t-field="o.scheduled_date"/>
+                        </div>
+                    </div>
+
+                    <table style="width:100%; border-collapse:collapse;" t-if="o.sale_id">
+                        <tbody>
+                            <t t-set="item_number" t-value="1"/>
+
+                            <t t-foreach="o.sale_id.order_line.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))"
+                            t-as="line">
+
+                                <tr>
+                                    <td style="padding:0; border:none;">
+                                        <table style="width:100%; border-collapse:collapse; margin-bottom:0; font-size:9px;">
+
+                                            <tr>
+                                                <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px;">
+                                                    ITEM<br/><span t-esc="item_number"/>
+                                                </td>
+                                                <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px;">
+                                                    <div style="font-size:8px; font-weight:normal;">QTD</div>
+                                                    <div style="font-size:13px; font-weight:bold;"><span t-field="line.product_uom_qty"/></div>
+                                                </td>
+                                                <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
+                                                    <span t-field="line.product_id.display_name"/>
+                                                    <t t-if="line.name and line.name != line.product_id.name and line.name != line.product_id.display_name">
+                                                        <br/>
+                                                        <span style="font-weight:normal; font-size:9px;" t-field="line.name"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px;"><strong>LARGURA FOLHA</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ALTURA FOLHA</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. FOLHA</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. PAREDE</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. BATENTE</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>LARGURA ALIZAR</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ALTURA ALIZAR</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px; width:14%;"><strong>ABERTURA</strong></td>
+                                            </tr>
+
+                                            <!-- LINHA 3: VALORES SUPERIORES -->
+                                            <tr>
+                                                <td colspan="2" style="border:1px solid #000; height:25px;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                
+                                            </tr>
+
+                                            <!-- LINHA 4: HEADERS INFERIORES -->
+                                            <tr>
+                                                <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px;"><strong>COR</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ACABAMENTO</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>MODELO</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ENCHIMENTO</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>FECHADURA</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>DOBRADIÇA</strong></td>
+                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>COR FERRAGENS</strong></td>
+                                            </tr>
+
+                                            <!-- LINHA 5: VALORES INFERIORES -->
+                                            <tr>
+                                                <td colspan="2" style="border:1px solid #000; height:35px;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                                <td style="border:1px solid #000;"></td>
+                                            </tr>
+
+                                        </table>
+
+                                        <!-- OBSERVAÇÃO -->
+                                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px; margin-top:-1px;">
+                                            <tr>
+                                                <td style="border:1px solid #000; height:30px; padding:5px;">
+                                                    <strong>OBSERVAÇÃO:</strong>
+                                                    <span style="display:inline-block; border-bottom:1px solid #000; width:85%; margin-left:4px; vertical-align:bottom;">&#160;</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+                                <t t-set="item_number" t-value="item_number + 1"/>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <t t-if="o.signature">
+                        <div class="mt32 ml64 mr4" name="signature">
+                            <div class="offset-8">
+                                <strong>Assinatura</strong>
+                            </div>
+                            <div class="offset-8">
+                                <img t-att-src="image_data_uri(o.signature)"
+                                    style="max-height:4cm; max-width:8cm;"/>
+                            </div>
+                            <div class="offset-8 text-center">
+                                <p t-field="o.partner_id.name"/>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+                    <div class="page" style="page-break-before: always;">
+
+                        <h2 style="text-align:center; margin-bottom:20px;">
+                            CHECKLIST DE ENTREGA
+                        </h2>
+
+                        <table style="
+                            width:100%;
+                            border:none !important;
+                            border-collapse:collapse;
+                            background-color:white !important;
+                        ">
+                            <tr style="background:transparent !important;">
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Cliente:</strong>
+                                    ________________________________________________
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Endereço da Obra:</strong>
+                                    ________________________________________________
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Data da Instalação:</strong>
+                                    ____ / ____ / ________
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Responsável Técnico:</strong>
+                                    ________________________________________________
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h4>ITENS VERIFICADOS APÓS A INSTALAÇÃO</h4>
+
+                        <p><strong>1. Folhas das portas</strong></p>
+                        <p>☐ Sem riscos, amassados ou trincas</p>
+                        <p>☐ Alinhadas e funcionando corretamente</p>
+                        <p>☐ Abertura e fechamento adequados</p>
+
+                        <p><strong>2. Guarnições / Acabamentos</strong></p>
+                        <p>☐ Todas devidamente instaladas</p>
+                        <p>☐ Sem folgas e bem encaixadas</p>
+                        <p>☐ Acabamento limpo e uniforme</p>
+
+                        <p><strong>3. Fechaduras e Ferragens</strong></p>
+                        <p>☐ Corretamente instaladas</p>
+                        <p>☐ Funcionamento testado e aprovado</p>
+                        <p>☐ Chaves entregues ao cliente</p>
+
+                        <p><strong>4. Batentes</strong></p>
+                        <p>☐ Fixados corretamente</p>
+                        <p>☐ Sem movimentação ou folgas</p>
+                        <p>☐ Nivelamento conferido</p>
+
+                        <p><strong>5. Limpeza Final</strong></p>
+                        <p>☐ Área de trabalho limpa</p>
+                        <p>☐ Resíduos removidos</p>
+                        <p>☐ Ambiente liberado para uso</p>
+                        <br/> <br/> <br/> <br/>
+                        <p><strong>6. Conferência do Cliente</strong></p>
+                        <p>☐ Cliente realizou conferência das portas</p>
+                        <p>☐ Cliente testou funcionamento das portas</p>
+                        <p>☐ Cliente aprovou a instalação realizada</p>
+
+                        <br/>
+
+                        <h4>TERMO DE RECEBIMENTO E ACEITE</h4>
+
+                        <p style="text-align:justify;">
+                            Eu, ____________________________________________,
+                            declaro para os devidos fins que recebi os produtos e serviços
+                            referentes à instalação das portas internas "Kit Pronto",
+                            constatando que os itens foram entregues e instalados em perfeitas
+                            condições de uso, funcionamento e acabamento, sem avarias aparentes,
+                            conforme contratado.
                         </p>
-                    </td>
-                    <!-- Pedido: quantidade original -->
-                    <td class="text-center">
-                        <span t-field="move.product_uom_qty"/>
-                        <span t-field="move.product_uom"/>
-                    </td>
-                    <!-- Entregue: soma das move_lines filhas -->
-                    <td class="text-center">
-                        <span t-esc="sum(move.move_line_ids.mapped('qty_done'))"/>
-                        <span t-field="move.product_uom"/>
-                    </td>
-                </tr>
 
+                        <p style="text-align:justify;">
+                            Declaro ainda que realizei a conferência dos serviços executados,
+                            estando ciente e de acordo com a entrega definitiva da obra referente
+                            à instalação das portas.
+                        </p>
+
+                        <p>
+                            <strong>Observações:</strong>
+                        </p>
+
+                        <div style="height:120px; border:1px solid #000;"></div>
+
+                        <br/><br/>
+
+                        <table style="
+                            width:100%;
+                            border:none !important;
+                            border-collapse:collapse;
+                            background-color:white !important;
+                        ">
+                            <tr style="background:transparent !important;">
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Local:</strong>
+                                    ______________________________
+                                </td>
+
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    <strong>Data:</strong>
+                                    ____ / ____ / ________
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br/><br/>
+
+                        <table style="
+                            width:100%;
+                            border:none !important;
+                            border-collapse:collapse;
+                            background-color:white !important;
+                        ">
+                            <tr style="background:transparent !important;">
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    _______________________________________<br/>
+                                    Assinatura do Cliente
+                                </td>
+
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    _______________________________________<br/>
+                                    Responsável pela Instalação
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
             </t>
         </xpath>
-
     </template>
 </odoo>

@@ -1,0 +1,162 @@
+<odoo>
+
+    <template id="report_ordem_separacao_inherit"
+              inherit_id="stock.report_picking">
+
+        <xpath expr="//t[@t-call='web.external_layout']"
+               position="replace">
+
+            <t t-call="web.external_layout">
+
+                <main>
+
+                    <div class="page">
+
+                        <h2 style="text-align:center;">
+                            Operação de Separação
+                        </h2>
+
+                        <br/>
+
+                        <!-- <div class="row">
+
+                            <div class="col-6">
+
+                                <strong>Documento:</strong>
+
+                                <p t-field="o.name"/>
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <strong>Pedido:</strong>
+
+                                <p t-field="o.origin"/>
+
+                            </div>
+
+                        </div> -->
+
+                        <!-- <div class="row">
+
+                            <div class="col-6">
+
+                                <strong>Cliente:</strong>
+
+                                <p t-field="o.partner_id"/>
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <strong>Data Programada:</strong>
+
+                                <p t-field="o.scheduled_date"/>
+
+                            </div>
+
+                        </div> -->
+
+                        <br/>
+
+                        <table class="table table-sm">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Produto
+                                    </th>
+
+                                    <th class="text-center">
+                                        Quantidade
+                                    </th>
+
+                                    <th t-if="o.picking_type_id.code != 'incoming'"
+                                        class="text-center"
+                                        groups="stock.group_stock_multi_locations">
+
+                                        Origem
+
+                                    </th>
+
+                                    <th t-if="o.picking_type_id.code != 'outgoing'"
+                                        class="text-center"
+                                        groups="stock.group_stock_multi_locations">
+
+                                        Destino
+
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <t t-foreach="o.move_ids_without_package"
+                                   t-as="move">
+
+                                    <tr>
+
+                                        <td>
+
+                                            <span t-field="move.product_id"/>
+
+                                            <p t-if="
+                                                move.description_picking
+                                                and move.description_picking != move.product_id.name
+                                                and move.description_picking != move.product_id.display_name
+                                            ">
+
+                                                <span t-field="move.description_picking"/>
+
+                                            </p>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <span t-field="move.product_uom_qty"/>
+
+                                            <span t-field="move.product_uom"/>
+
+                                        </td>
+
+                                        <td t-if="o.picking_type_id.code != 'incoming'"
+                                            class="text-center"
+                                            groups="stock.group_stock_multi_locations">
+
+                                            <span t-field="move.location_id"/>
+
+                                        </td>
+
+                                        <td t-if="o.picking_type_id.code != 'outgoing'"
+                                            class="text-center"
+                                            groups="stock.group_stock_multi_locations">
+
+                                            <span t-field="move.location_dest_id"/>
+
+                                        </td>
+
+                                    </tr>
+
+                                </t>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </main>
+
+            </t>
+
+        </xpath>
+
+    </template>
+
+</odoo>
