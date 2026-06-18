@@ -22,7 +22,7 @@
         'report/report_contrato_mmportas_unificado.xml',
         'report/report_contrato_orcamento_unificado.xml',
         'report/report_nota_entrega.xml',
-        # 'report/report_orcamento_mmportas.xml',
+        'report/report_orcamento_mmportas.xml',
         # 'report/report_contrato_mmportas.xml',
         # 'report/report_ambos_mmportas.xml',
         # 'report/report_contrato_stand_mmportas.xml',
