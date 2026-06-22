@@ -191,114 +191,116 @@
                             <p t-field="o.scheduled_date"/>
                         </div>
                     </div>
+                    <t t-if="o.sale_id">
+                        <t t-set="item_number" t-value="1"/>
 
-                    <table style="width:100%; border-collapse:collapse;" t-if="o.sale_id">
-                        <tbody>
-                            <t t-set="item_number" t-value="1"/>
+                        <t t-foreach="o.sale_id.order_line.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))"
+                        t-as="line">
+                            <div style="page-break-inside: avoid; margin-bottom: 15px;">
+                                <table style="width:100%; border-collapse:collapse; font-size:9px;">
+                                    <tr>
+                                        <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px; background-color:#f0f0f0;">
+                                            ITEM<br/><span t-esc="item_number"/>
+                                        </td>
+                                        <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px; background-color:#f0f0f0;">
+                                            <div style="font-size:8px; font-weight:normal;">QTD</div>
+                                            <div style="font-size:13px; font-weight:bold;"><span t-field="line.product_uom_qty"/></div>
+                                        </td>
+                                        <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
+                                            <span t-field="line.product_id.display_name"/>
+                                            <t t-if="line.name and line.name != line.product_id.name and line.name != line.product_id.display_name">
+                                                <br/>
+                                                <span style="font-weight:normal; font-size:9px;" t-field="line.name"/>
+                                            </t>
+                                        </td>
+                                    </tr>
 
-                            <t t-foreach="o.sale_id.order_line.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))"
-                            t-as="line">
+                                    <tr>
+                                        <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA FOLHA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA FOLHA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. FOLHA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. PAREDE</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. BATENTE</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA ALIZAR</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA ALIZAR</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; width:14%; background-color:#f0f0f0;"><strong>ABERTURA</strong></td>
+                                    </tr>
 
-                                <tr>
-                                    <td style="padding:0; border:none;">
-                                        <table style="width:100%; border-collapse:collapse; margin-bottom:0; font-size:9px;">
+                                    <!-- LINHA 3: VALORES SUPERIORES -->
+                                    <tr>
+                                        <td colspan="2" style="border:1px solid #000; height:25px; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                    </tr>
 
-                                            <tr>
-                                                <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px;">
-                                                    ITEM<br/><span t-esc="item_number"/>
-                                                </td>
-                                                <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px;">
-                                                    <div style="font-size:8px; font-weight:normal;">QTD</div>
-                                                    <div style="font-size:13px; font-weight:bold;"><span t-field="line.product_uom_qty"/></div>
-                                                </td>
-                                                <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
-                                                    <span t-field="line.product_id.display_name"/>
-                                                    <t t-if="line.name and line.name != line.product_id.name and line.name != line.product_id.display_name">
-                                                        <br/>
-                                                        <span style="font-weight:normal; font-size:9px;" t-field="line.name"/>
-                                                    </t>
-                                                </td>
-                                            </tr>
+                                    <!-- LINHA 4: HEADERS INFERIORES -->
+                                    <tr>
+                                        <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ACABAMENTO</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>MODELO</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ENCHIMENTO</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>FECHADURA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>DOBRADIÇA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR FERRAGENS</strong></td>
+                                    </tr>
 
-                                            <tr>
-                                                <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px;"><strong>LARGURA FOLHA</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ALTURA FOLHA</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. FOLHA</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. PAREDE</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ESP. BATENTE</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>LARGURA ALIZAR</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ALTURA ALIZAR</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px; width:14%;"><strong>ABERTURA</strong></td>
-                                            </tr>
+                                    <tr>
+                                        <td colspan="2" style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                    </tr>
 
-                                            <!-- LINHA 3: VALORES SUPERIORES -->
-                                            <tr>
-                                                <td colspan="2" style="border:1px solid #000; height:25px;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                
-                                            </tr>
+                                </table>
 
-                                            <!-- LINHA 4: HEADERS INFERIORES -->
-                                            <tr>
-                                                <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px;"><strong>COR</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ACABAMENTO</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>MODELO</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>ENCHIMENTO</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>FECHADURA</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>DOBRADIÇA</strong></td>
-                                                <td style="border:1px solid #000; text-align:center; font-size:8px;"><strong>COR FERRAGENS</strong></td>
-                                            </tr>
+                                <table style="width:100%; border-collapse:collapse; margin-top:-1px;">
+                                    <tr>
+                                        <td style="border:1px solid #000; height:30px; padding:5px; background-color:#f0f0f0;">
+                                            <strong>OBSERVAÇÃO:</strong>
+                                            <span style="display:inline-block; border-bottom:1px solid #000; width:85%; margin-left:4px; vertical-align:bottom;">&#160;</span>
+                                        </td>
+                                    </tr>
+                                </table>
 
-                                            <!-- LINHA 5: VALORES INFERIORES -->
-                                            <tr>
-                                                <td colspan="2" style="border:1px solid #000; height:35px;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                                <td style="border:1px solid #000;"></td>
-                                            </tr>
-
-                                        </table>
-
-                                        <!-- OBSERVAÇÃO -->
-                                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px; margin-top:-1px;">
-                                            <tr>
-                                                <td style="border:1px solid #000; height:30px; padding:5px;">
-                                                    <strong>OBSERVAÇÃO:</strong>
-                                                    <span style="display:inline-block; border-bottom:1px solid #000; width:85%; margin-left:4px; vertical-align:bottom;">&#160;</span>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                    </td>
-                                </tr>
-
-                                <t t-set="item_number" t-value="item_number + 1"/>
-                            </t>
-                        </tbody>
-                    </table>
-
-                    <t t-if="o.signature">
-                        <div class="mt32 ml64 mr4" name="signature">
-                            <div class="offset-8">
-                                <strong>Assinatura</strong>
                             </div>
-                            <div class="offset-8">
-                                <img t-att-src="image_data_uri(o.signature)"
-                                    style="max-height:4cm; max-width:8cm;"/>
-                            </div>
-                            <div class="offset-8 text-center">
-                                <p t-field="o.partner_id.name"/>
-                            </div>
-                        </div>
+
+                            <t t-set="item_number" t-value="item_number + 1"/>
+                        </t>
                     </t>
+
+                    <table style="
+                            width:100%;
+                            border:none !important;
+                            border-collapse:collapse;
+                            background-color:white !important;
+                            margin-top:60px;
+                            page-break-inside: avoid;
+                        ">
+                            <tr style="background:transparent !important;">
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    _______________________________________<br/>
+                                    Assinatura do Cliente
+                                </td>
+
+                                <td style="
+                                    border:none !important;
+                                    background:transparent !important;
+                                ">
+                                    _______________________________________<br/>
+                                    Responsável pela Instalação
+                                </td>
+                            </tr>
+                        </table>
 
                 </div>
                     <div class="page" style="page-break-before: always;">
