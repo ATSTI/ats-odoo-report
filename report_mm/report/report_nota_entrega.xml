@@ -164,7 +164,7 @@
 
                     </div>
                 </div>  
-               <div class="page" style="page-break-before: always;">
+              <div class="page" style="page-break-before: always;">
 
                     <div class="row mt32 mb32">
                         <div t-if="o.picking_type_id.code == 'outgoing'" class="col-6">
@@ -194,8 +194,8 @@
                     <t t-if="o.sale_id">
                         <t t-set="item_number" t-value="1"/>
 
-                        <t t-foreach="o.sale_id.order_line.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))"
-                        t-as="line">
+                        <t t-foreach="o._get_lines_grouped_by_ambiente()"
+                        t-as="group">
                             <div style="page-break-inside: avoid; margin-bottom: 15px;">
                                 <table style="width:100%; border-collapse:collapse; font-size:9px;">
                                     <tr>
@@ -204,19 +204,16 @@
                                         </td>
                                         <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px; background-color:#f0f0f0;">
                                             <div style="font-size:8px; font-weight:normal;">QTD</div>
-                                            <div style="font-size:13px; font-weight:bold;"><span t-field="line.product_uom_qty"/></div>
+                                            <div style="font-size:13px; font-weight:bold;"><span t-esc="group['qty']"/></div>
                                         </td>
                                         <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
-                                            <span t-field="line.product_id.display_name"/>
-                                            <t t-if="line.name and line.name != line.product_id.name and line.name != line.product_id.display_name">
-                                                <br/>
-                                                <span style="font-weight:normal; font-size:9px;" t-field="line.name"/>
-                                            </t>
+                                            <span t-esc="group['names']"/>
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA FOLHA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA FOLHA</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA VAO</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA FOLHA</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. FOLHA</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. PAREDE</strong></td>
@@ -228,18 +225,20 @@
 
                                     <!-- LINHA 3: VALORES SUPERIORES -->
                                     <tr>
-                                        <td colspan="2" style="border:1px solid #000; height:25px; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:25px; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
                                     </tr>
 
                                     <!-- LINHA 4: HEADERS INFERIORES -->
                                     <tr>
-                                        <td colspan="2" style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR</strong></td>
+                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA VAO</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ACABAMENTO</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>MODELO</strong></td>
                                         <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ENCHIMENTO</strong></td>
@@ -249,13 +248,14 @@
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2" style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
                                     </tr>
 
                                 </table>

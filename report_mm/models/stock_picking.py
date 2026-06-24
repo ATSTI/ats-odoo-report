@@ -1,33 +1,38 @@
 from odoo import models
-from collections import OrderedDict
 
 
 class StockPicking(models.Model):
-    _inherit = "stock.picking"
+    _inherit = 'stock.picking'
 
-    def get_moves_grouped_by_section(self):
+    def _get_lines_grouped_by_ambiente(self):
+        """Agrupa as linhas do pedido de venda por ambiente (line_section).
+
+        Cada section marca o início de um novo ambiente. As linhas de
+        produto seguintes (até o próximo section) são agrupadas em um
+        único item: a quantidade é somada e os nomes dos produtos são
+        concatenados.
+        """
         self.ensure_one()
+        groups = []
+        current_lines = []
 
-        # Pega a ordem de venda diretamente pelo picking
-        sale_order = self.sale_id  # campo nativo do stock.picking
+        def _flush():
+            if current_lines:
+                groups.append({
+                    'qty': sum(l.product_uom_qty for l in current_lines),
+                    'names': ' /// '.join(
+                        l.product_id.display_name for l in current_lines
+                    ),
+                })
 
-        if not sale_order:
-            return {"Sem Seção": self.move_ids_without_package}
-
-        # Monta o mapa: sale_line_id -> nome da seção
-        section_map = {}
-        current_section = "Sem Seção"
-        for line in sale_order.order_line:
+        for line in self.sale_id.order_line:
             if line.display_type == 'line_section':
-                current_section = line.name
-            elif not line.display_type:
-                section_map[line.id] = current_section
+                _flush()
+                current_lines = []
+            elif line.display_type == 'line_note':
+                continue
+            else:
+                current_lines.append(line)
 
-        # Agrupa os moves preservando a ordem das seções
-        grouped = OrderedDict()
-        for move in self.move_ids_without_package.filtered(lambda m: not m.scrapped):
-            section = section_map.get(move.sale_line_id.id, "Sem Seção")
-            grouped.setdefault(section, self.env['stock.move'])
-            grouped[section] |= move
-
-        return grouped
+        _flush()
+        return groups
