@@ -44,6 +44,7 @@
                         <span t-field="o.partner_id.street"/> -
                         <span t-field="o.partner_id.city"/> -
                         <span t-field="o.partner_id.state_id.code"/> -
+                        <span t-field="o.partner_id.district"/> -
                         Cep: <span t-field="o.partner_id.zip"/>
                     </td>
                 </tr>
