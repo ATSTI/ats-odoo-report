@@ -66,12 +66,14 @@
                             <span t-field="o.partner_shipping_id.street"/> -
                             <span t-field="o.partner_shipping_id.city"/> -
                             <span t-field="o.partner_shipping_id.state_id.code"/> -
+                            <span t-field="o.partner_id.district"/> -
                             Cep: <span t-field="o.partner_shipping_id.zip"/>
                         </t>
                         <t t-else="">
                             <span t-field="o.partner_id.street"/> -
                             <span t-field="o.partner_id.city"/> -
                             <span t-field="o.partner_id.state_id.code"/> -
+                            <span t-field="o.partner_id.district"/> -
                             Cep: <span t-field="o.partner_id.zip"/>
                         </t>
                     </td>
