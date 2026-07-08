@@ -16,7 +16,7 @@ class ReportComissao(models.AbstractModel):
         domain = [
             ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
-            ('payment_state', '=', 'paid'),
+             ('payment_state', 'in', ['paid', 'partial']),
         ]
 
         if vendedor_ids:
