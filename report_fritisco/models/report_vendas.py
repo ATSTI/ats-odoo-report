@@ -47,7 +47,7 @@ class ReportVendas(models.AbstractModel):
                 linhas.append({
                     'vendedor': invoice.invoice_user_id.name,
                     'cliente': invoice.partner_id.name,
-                    'pedido': invoice.name,
+                    'pedido': invoice.document_number,
                     'emissao': invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else '',
                     'parcela': f'{indice}/{total_parcelas}',
                     'vencimento': parcela.date_maturity.strftime('%d/%m/%Y') if parcela.date_maturity else '',
