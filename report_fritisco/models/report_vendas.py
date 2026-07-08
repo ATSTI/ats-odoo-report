@@ -39,21 +39,26 @@ class ReportVendas(models.AbstractModel):
             total_parcelas = len(parcelas)
 
             for indice, parcela in enumerate(parcelas, start=1):
+                if invoice.payment_state == 'paid':
+                    situacao = 'Pago'
+                else:
+                    situacao = 'À Vencer'
 
                 linhas.append({
                     'vendedor': invoice.invoice_user_id.name,
                     'cliente': invoice.partner_id.name,
                     'pedido': invoice.name,
-                    'emissao': invoice.invoice_date.strftime('%d/%m/%Y'),
+                    'emissao': invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else '',
                     'parcela': f'{indice}/{total_parcelas}',
                     'vencimento': parcela.date_maturity.strftime('%d/%m/%Y') if parcela.date_maturity else '',
                     'valor_parcela': abs(parcela.balance),
+                    'situacao': situacao,
                 })
 
 
         return {
-        'docs': linhas,
-        'vendedor': vendedor,
-        'data_inicial': fields.Date.to_date(data.get('data_inicial')).strftime('%d/%m/%Y'),
-        'data_final': fields.Date.to_date(data.get('data_final')).strftime('%d/%m/%Y'),
-    }
+            'docs': linhas,
+            'vendedor': vendedor,
+            'data_inicial': fields.Date.to_date(data.get('data_inicial')).strftime('%d/%m/%Y'),
+            'data_final': fields.Date.to_date(data.get('data_final')).strftime('%d/%m/%Y'),
+        }

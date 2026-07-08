@@ -53,13 +53,14 @@
                     <table class="table table-sm table-bordered" style="width:100%;">
                         <thead>
                             <tr>
-                                <th style="width:25%;">Cliente</th>
-                                <th style="width:20%;">Pedido</th>
-                                <th style="width:15%;">Parcela</th>
-                                <th style="width:20%;">Vencimento</th>
-                                <th style="width:20%;" class="text-end">
-                                    Valor
-                                </th>
+                                <th>Vendedor</th>
+                                <th>Cliente</th>
+                                <th>Pedido/NF</th>
+                                <th>Data Pedido</th>
+                                <th>Nº Parcelas</th>
+                                <th>Valor Parcela</th>
+                                <th>Vencimento</th>
+                                <th>Pago / À Vencer</th>
                             </tr>
                         </thead>
 
@@ -67,24 +68,25 @@
 
                             <t t-set="cliente_atual" t-value="''"/>
                             <t t-foreach="docs" t-as="l">
-                                <t t-if="cliente_atual != l['cliente']">
 
-                                    <t t-set="cliente_atual"
-                                       t-value="l['cliente']"/>
+                                <t t-if="cliente_atual != l['cliente']">
+                                    <t t-set="cliente_atual" t-value="l['cliente']"/>
 
                                     <tr>
-                                        <td colspan="5"
-                                            style="
-                                                background:#e9ecef;
-                                                font-weight:bold;
-                                                font-size:14px;
-                                            ">
+                                        <td colspan="8"
+                                            style="background:#e9ecef;font-weight:bold;">
                                             Cliente:
                                             <span t-esc="l['cliente']"/>
                                         </td>
                                     </tr>
                                 </t>
+
                                 <tr>
+                                    <td>
+                                        <span t-esc="l['vendedor']"/>
+                                    </td>
+
+                                    <!-- Cliente fica vazio porque já apareceu acima -->
                                     <td></td>
 
                                     <td>
@@ -92,17 +94,26 @@
                                     </td>
 
                                     <td>
+                                        <span t-esc="l['emissao']"/>
+                                    </td>
+
+                                    <td>
                                         <span t-esc="l['parcela']"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-esc="'{:,.2f}'.format(l['valor_parcela'])"/>
                                     </td>
 
                                     <td>
                                         <span t-esc="l['vencimento']"/>
                                     </td>
 
-                                    <td class="text-end">
-                                        <span t-esc="'{:,.2f}'.format(l['valor_parcela'])"/>
+                                    <td>
+                                        <span t-esc="l['situacao']"/>
                                     </td>
                                 </tr>
+
                             </t>
                         </tbody>
                     </table>
