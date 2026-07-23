@@ -1,6 +1,5 @@
 from odoo import models
 
-
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -15,13 +14,15 @@ class StockPicking(models.Model):
         self.ensure_one()
         groups = []
         current_lines = []
+        current_section_name = "Sem Seção"   #armazena nome sessao padrao caso n tenha
 
         def _flush():
             if current_lines:
                 groups.append({
+                    'section_name': current_section_name, 
                     'qty': sum(l.product_uom_qty for l in current_lines),
                     'names': ' /// '.join(
-                        l.product_id.display_name for l in current_lines
+                        l.product_id.display_name for l in current_lines if l.product_id
                     ),
                 })
 
@@ -29,6 +30,7 @@ class StockPicking(models.Model):
             if line.display_type == 'line_section':
                 _flush()
                 current_lines = []
+                current_section_name = line.name 
             elif line.display_type == 'line_note':
                 continue
             else:

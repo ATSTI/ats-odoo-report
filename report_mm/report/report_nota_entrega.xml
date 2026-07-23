@@ -199,6 +199,7 @@
                             <div style="page-break-inside: avoid; margin-bottom: 15px;">
                                 <table style="width:100%; border-collapse:collapse; font-size:9px;">
                                     <tr>
+                                        <span t-esc='group["section_name"]'/>
                                         <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px; background-color:#f0f0f0;">
                                             ITEM<br/><span t-esc="item_number"/>
                                         </td>
