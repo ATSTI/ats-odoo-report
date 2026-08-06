@@ -182,7 +182,7 @@
                                       ______________________________________________<br/>
                                       Cliente: <span t-field="o.partner_id.name"/><br/>
                           
-                                      <t t-if="doc.partner_id.vat">
+                                      <t t-if="o.partner_id.vat">
                                           CPF: <span t-field="o.partner_id.vat"/>
                                       </t>
                                       <t t-else="">
