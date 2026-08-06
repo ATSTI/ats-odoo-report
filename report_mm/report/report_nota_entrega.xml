@@ -191,84 +191,115 @@
                             <p t-field="o.scheduled_date"/>
                         </div>
                     </div>
-                    <t t-if="o.sale_id">
+                   <t t-if="o.sale_id">
                         <t t-set="item_number" t-value="1"/>
 
                         <t t-foreach="o._get_lines_grouped_by_ambiente()"
                         t-as="group">
                             <div style="page-break-inside: avoid; margin-bottom: 15px;">
-                                <table style="width:100%; border-collapse:collapse; font-size:9px;">
-                                    <tr>
-                                        <span t-esc='group["section_name"]'/>
-                                        <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px; background-color:#f0f0f0;">
-                                            ITEM<br/><span t-esc="item_number"/>
-                                        </td>
-                                        <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px; background-color:#f0f0f0;">
-                                            <div style="font-size:8px; font-weight:normal;">QTD</div>
-                                            <div style="font-size:13px; font-weight:bold;"><span t-esc="group['qty']"/></div>
-                                        </td>
-                                        <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
-                                            <span t-esc="group['names']"/>
-                                        </td>
-                                    </tr>
 
-                                    <tr>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA FOLHA</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA VAO</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA FOLHA</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. FOLHA</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. PAREDE</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. BATENTE</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA ALIZAR</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA ALIZAR</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; width:14%; background-color:#f0f0f0;"><strong>ABERTURA</strong></td>
-                                    </tr>
+                                <t t-if="group['section_name'] and 'espuma expansiva' in group['section_name'].lower()">
+                                    <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                                        <tr>
+                                            <td colspan="3" style="border:1px solid #000; padding:6px; font-weight:bold; background-color:#f0f0f0; font-size:12px;">
+                                                <span t-esc='group["section_name"]'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid #000; text-align:center; font-weight:bold; background-color:#f0f0f0; width:60%;">ITEM</td>
+                                            <td style="border:1px solid #000; text-align:center; font-weight:bold; background-color:#f0f0f0; width:20%;">QUANTIDADE</td>
+                                            <td style="border:1px solid #000; text-align:center; font-weight:bold; background-color:#f0f0f0; width:20%;">VALOR</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <span t-esc="group['names']"/>
+                                            </td>
+                                            <td style="border:1px solid #000; text-align:center;">
+                                                <span t-esc="group['qty']"/>
+                                            </td>
+                                            <td style="border:1px solid #000; text-align:center;">
+                                                <span t-esc="group['price']"
+                                                    t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
 
-                                    <!-- LINHA 3: VALORES SUPERIORES -->
-                                    <tr>
-                                        <td style="border:1px solid #000; height:25px; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                    </tr>
+                                <!-- ===================== -->
+                                <!-- CASO: PADRÃO (portas)  -->
+                                <!-- ===================== -->
+                                <t t-else="">
+                                    <table style="width:100%; border-collapse:collapse; font-size:9px;">
+                                        <tr>
+                                            <span t-esc='group["section_name"]'/>
+                                            <td style="width:10%; border:1px solid #000; text-align:center; vertical-align:middle; font-weight:bold; font-size:16px; padding:6px; background-color:#f0f0f0;">
+                                                ITEM<br/><span t-esc="item_number"/>
+                                            </td>
+                                            <td style="width:8%; border:1px solid #000; text-align:center; vertical-align:middle; padding:4px; background-color:#f0f0f0;">
+                                                <div style="font-size:8px; font-weight:normal;">QTD</div>
+                                                <div style="font-size:13px; font-weight:bold;"><span t-esc="group['qty']"/></div>
+                                            </td>
+                                            <td colspan="7" style="border:1px solid #000; padding:6px; font-size:11px; font-weight:bold; vertical-align:middle; background-color:#FFFFFF;">
+                                                <span t-esc="group['names']"/>
+                                            </td>
+                                        </tr>
 
-                                    <!-- LINHA 4: HEADERS INFERIORES -->
-                                    <tr>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA VAO</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ACABAMENTO</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>MODELO</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ENCHIMENTO</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>FECHADURA</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>DOBRADIÇA</strong></td>
-                                        <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR FERRAGENS</strong></td>
-                                    </tr>
+                                        <tr>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA FOLHA</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA VAO</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA FOLHA</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. FOLHA</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. PAREDE</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ESP. BATENTE</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>LARGURA ALIZAR</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA ALIZAR</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; width:14%; background-color:#f0f0f0;"><strong>ABERTURA</strong></td>
+                                        </tr>
 
-                                    <tr>
-                                        <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                        <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
-                                    </tr>
+                                        <tr>
+                                            <td style="border:1px solid #000; height:25px; background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        </tr>
 
-                                </table>
+                                        <tr>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ALTURA VAO</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ACABAMENTO</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>MODELO</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>ENCHIMENTO</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>FECHADURA</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>DOBRADIÇA</strong></td>
+                                            <td style="border:1px solid #000; text-align:center; font-size:8px; background-color:#f0f0f0;"><strong>COR FERRAGENS</strong></td>
+                                        </tr>
 
-                                <table style="width:100%; border-collapse:collapse; margin-top:-1px;">
-                                    <tr>
-                                        <td style="border:1px solid #000; height:30px; padding:5px; background-color:#f0f0f0;">
-                                            <strong>OBSERVAÇÃO:</strong>
-                                            <span style="display:inline-block; border-bottom:1px solid #000; width:85%; margin-left:4px; vertical-align:bottom;">&#160;</span>
-                                        </td>
-                                    </tr>
-                                </table>
+                                        <tr>
+                                            <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px; background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                            <td style="border:1px solid #000; height:35px;background-color:#f0f0f0;"></td>
+                                        </tr>
+
+                                    </table>
+
+                                    <table style="width:100%; border-collapse:collapse; margin-top:-1px;">
+                                        <tr>
+                                            <td style="border:1px solid #000; height:30px; padding:5px; background-color:#f0f0f0;">
+                                                <strong>OBSERVAÇÃO:</strong>
+                                                <span style="display:inline-block; border-bottom:1px solid #000; width:85%; margin-left:4px; vertical-align:bottom;">&#160;</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
 
                             </div>
 
