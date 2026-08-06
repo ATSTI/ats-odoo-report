@@ -73,7 +73,7 @@ class ReportComissao(models.AbstractModel):
                 linhas.append({
                     'vendedor': invoice.invoice_user_id.name,
                     'cliente': invoice.partner_id.name,
-                    'fatura': invoice.name,
+                    'referencia': invoice.invoice_origin or invoice.name,
                     'emissao': invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else '',
                     'forma_pagamento': invoice.payment_mode_id.name if invoice.payment_mode_id else '',
                     'parcela': parcela_num,
