@@ -70,10 +70,13 @@ class ReportComissao(models.AbstractModel):
                 valor_pago = abs(p.amount)
                 comissao = valor_pago * (comissao_percentual / 100.0)
 
+                sale_orders = invoice.invoice_line_ids.mapped('sale_line_ids.order_id')
+                referencia = ', '.join(sale_orders.mapped('name')) if sale_orders else (invoice.invoice_origin or invoice.name)
+
                 linhas.append({
                     'vendedor': invoice.invoice_user_id.name,
                     'cliente': invoice.partner_id.name,
-                    'referencia': invoice.invoice_origin or invoice.name,
+                    'referencia': referencia,
                     'emissao': invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else '',
                     'forma_pagamento': invoice.payment_mode_id.name if invoice.payment_mode_id else '',
                     'parcela': parcela_num,
