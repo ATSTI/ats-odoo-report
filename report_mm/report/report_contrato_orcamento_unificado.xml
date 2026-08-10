@@ -136,45 +136,99 @@
                         </div>
                         <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()"/>
                         <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
-                        <table class="table table-sm o_main_table table-borderless mt-4">
-                            <thead>
+                        <table class="table table-sm o_main_table table-borderless mt-4" style="page-break-inside:auto;">
+                            <thead style="display: table-header-group;">
                                 <tr>
-                                    <th class="text-start">Descrição</th>
-                                    <th class="text-end">Quantidade</th>
-                                    <th class="text-end">Preço Unitário</th>
-                                    <th t-if="display_discount" style="width:0.01%; font-size:1px; color:transparent;" class="text-end">Disc.%</th>
-                                    <th class="text-end">Subtotal</th>
+                                    <th name="th_description" class="text-start">Descrição</th>
+                                    <th name="th_quantity" class="text-end">Qtd</th>
+                                    <th name="th_priceunit" class="text-end">Preço Unit</th>
+                                    <th name="th_subtotal" class="text-end">
+                                        <span groups="account.group_show_line_subtotals_tax_excluded">Valor</span>
+                                        <span groups="account.group_show_line_subtotals_tax_included">Preço Total</span>
+                                    </th>
+                                    <th name="th_illustration" class="text-end">Ilustração</th>
                                 </tr>
                             </thead>
                             <tbody class="sale_tbody">
+
+                                <t t-set="current_subtotal" t-value="0"/>
+
                                 <t t-foreach="lines_to_report" t-as="line">
-                                    <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                    <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''"
+                                        style="page-break-inside: avoid; page-break-after: auto;">
                                         <t t-if="not line.display_type">
-                                            <td class="text-start"><span t-field="line.name"/></td>
-                                            <td class="text-end">
+                                            <td name="td_name"><span t-field="line.name"/></td>
+                                            <td name="td_quantity" class="text-end">
                                                 <span t-field="line.product_uom_qty"/>
                                                 <span t-field="line.product_uom"/>
                                             </td>
-                                            <td class="text-end"><span t-field="line.price_unit"/></td>
-                                            <td t-if="display_discount" class="text-end" style="padding:0; margin:0; border:none; width:0.01%; font-size:0; line-height:0; color:transparent;">
-                                                <span t-field="line.discount"/>
+                                            <td name="td_priceunit" class="text-end">
+                                                <span t-field="line.price_unit"/>
                                             </td>
-                                            <td class="text-end o_price_total">
-                                                <span t-field="line.price_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
+                                                <!-- <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/> -->
+                                            </td>
+                                            <td class="text-end">
+                                                <t t-if="line.product_template_attribute_value_ids" >
+                                                    <t t-foreach="line.product_template_attribute_value_ids" t-as="variant" >
+                                                        <t t-if="variant.product_attribute_value_id.attribute_id.name == 'Direção'">
+                                                            <t t-set="direction" t-value="False"/>
+                                                            <t t-set="tipo" t-value="False"/>
+                                                            <t t-set="posicao" t-value="False"/>
+
+                                                            <t t-foreach="line.product_id.product_template_attribute_value_ids" t-as="attr">
+
+                                                                <t t-if="attr.product_attribute_value_id.attribute_id.name == 'Direção'">
+                                                                    <t t-set="direction" t-value="attr.product_attribute_value_id.name"/>
+                                                                </t>
+
+                                                                <t t-if="attr.product_attribute_value_id.attribute_id.name == 'Tipo'">
+                                                                    <t t-set="tipo" t-value="attr.product_attribute_value_id.name"/>
+                                                                </t>
+
+                                                                <t t-if="attr.product_attribute_value_id.attribute_id.name == 'Posição'">
+                                                                    <t t-set="posicao" t-value="attr.product_attribute_value_id.name"/>
+                                                                </t>
+
+                                                            </t>
+
+                                                            <div style="page-break-inside: avoid;">
+                                                                <img t-att-src="line.product_id._get_image_direction(direction, tipo, posicao)"
+                                                                    style="height:60px;width:90px"/>
+                                                            </div>
+
+                                                        </t>
+                                                    </t>
+                                                </t>
                                             </td>
                                         </t>
                                         <t t-elif="line.display_type == 'line_section'">
-                                        <tr t-att-style="'background-color: #d6d8db; font-weight: bold; color: #000;'">
-                                            <td colspan="99" t-att-style="'border: 2px solid #000; padding: 6px;'">
+                                            <td name="td_section_line" colspan="99">
                                                 <span t-field="line.name"/>
                                             </td>
-                                        </tr>
-                                    </t> <!--Aqui que altera a cor da secao, ver se eles aprova assim-->
-
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </t>
                                         <t t-elif="line.display_type == 'line_note'">
-                                            <td colspan="99"><span t-field="line.name"/></td>
+                                            <td name="td_note_line" colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
                                         </t>
                                     </tr>
+
+                                    <t t-if="current_section and (line_last or lines_to_report[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                                        <tr class="is-subtotal text-end" style="page-break-inside: avoid;">
+                                            <td name="td_section_subtotal" colspan="99">
+                                                <strong class="mr16">Subtotal</strong>
+                                                <span t-out="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
                                 </t>
                             </tbody>
                         </table>
