@@ -19,6 +19,7 @@
     ],
     'data': [
         'report/report_faturas_inherit.xml',
+        'views/account_move.xml'
     ],
     'installable': True,
     'application': False,

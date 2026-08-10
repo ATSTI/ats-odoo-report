@@ -229,7 +229,12 @@
                             <p>
                                 Data de entrega :
                                 <b>
+                                    <t t-if ='o.data_de_entrega'>
+                                        <span t-field="o.data_de_entrega" t-options='{"format": "dd/MM/yyyy"}'/>
+                                    </t>
+                                    <t t-else="">
                                     <span t-field="o.date_in_out" t-options='{"format": "dd/MM/yyyy"}'/>
+                                    </t>
                                 </b>
                             </p>
                             <t t-set="payment_term_details" t-value="o.payment_term_details"/>
