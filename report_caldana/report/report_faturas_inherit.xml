@@ -283,6 +283,29 @@
                                 </p>
                             </div>
                         </div>
+                    
+                        <div class="mt-5" style="page-break-inside: avoid;">
+                            <div class="row mt-5">
+
+                                <div class="col-6 text-center">
+                                    <div style="height: 70px;"></div>
+
+                                    <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto;"></div>
+
+                                    <div class="mt-2">
+                                        <strong>Assinatura do Cliente</strong>
+                                    </div>
+
+                                    <div t-if="o.partner_id.name" class="mt-1">
+                                        <span t-field="o.partner_id.name"/>
+                                    </div>
+
+                                    <div t-if="o.partner_id.vat" class="mt-1">
+                                        <span t-field="o.partner_id.vat"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </t>
             </xpath>
