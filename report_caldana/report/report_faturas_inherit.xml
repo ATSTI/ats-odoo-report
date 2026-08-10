@@ -129,7 +129,7 @@
                                                 <span>Impostos</span>
                                             </th>
                                             <th name="th_subtotal" class="text-end">
-                                                <span groups="account.group_show_line_subtotals_tax_excluded">Quantia</span>
+                                                <span groups="account.group_show_line_subtotals_tax_excluded">Total</span>
                                                 <span groups="account.group_show_line_subtotals_tax_included">Preço total</span>
                                             </th>
                                         </tr>
