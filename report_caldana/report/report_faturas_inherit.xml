@@ -8,7 +8,6 @@
                     <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat"/>
                     <!--  So that it appears in the footer of the report instead of the company VAT if it's set  -->
 
-                    <!-- ===== INÍCIO: duas vias empilhadas, mesma página ===== -->
                     <style>
                         .via_col { font-size: 9px; }
                         .via_col h2 { font-size: 13px; margin-bottom: 4px; }
@@ -16,6 +15,7 @@
                         .via_col address { font-size: 9px; margin-bottom: 2px; }
                         .via_col .row > div { margin-bottom: 2px; }
                         .via_divider { border-top: 1px dashed #999; padding-top: 8px; margin-top: 8px; }
+                        .via_header_logo { max-height: 45px; max-width: 200px; }
                     </style>
 
                     <t t-set="vias" t-value="[('Via do Estabelecimento', False), ('Via do Cliente', True)]"/>
@@ -27,9 +27,22 @@
 
                             <div t-attf-class="via_col #{'' if via_item_first else 'via_divider'}">
 
-                                <div class="text-center mb-1">
-                                    <strong t-esc="via_nome"/>
-                                </div>
+                               
+                                <div t-if="not via_item_first" class="row mb-2" style="page-break-inside: avoid;">
+                                    <div class="col-4">
+                                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" class="via_header_logo" alt="Logo"/>
+                                    </div>
+                                 </div>
+
+                                    <div class="col-8 text-end float-end">
+                                        <strong t-field="o.company_id.name"/><br/>
+                                        <span t-if="o.company_id.vat">CNPJ: <span t-field="o.company_id.vat"/></span>
+                                    </div>
+
+                                    <div class="text-center mb-1 w-100 float-none d-inline-block clearfix">
+                                        <strong t-esc="via_nome"/>
+                                    </div>
+
 
                                 <div class="mb-1">
                                     <strong>Cliente:</strong> <span t-field="o.partner_id.name"/><br/>
@@ -197,8 +210,6 @@
                             </div>
                         </t>
                     </div>
-                    <!-- ===== FIM: duas vias lado a lado ===== -->
-
                 </t>
             </xpath>
         </template>
