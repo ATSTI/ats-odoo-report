@@ -5,7 +5,7 @@
             <xpath expr="//div[hasclass('company_address')]/ul" position="inside">
                 <li t-if="company.vat">CNPJ: <span t-field="company.vat"/></li>
             </xpath>
-            <xpath expr="//div[contains(@t-attf-class, 'o_background_footer')]" position="replace"/> 
+            <!-- <xpath expr="//div[contains(@t-attf-class, 'o_background_footer')]" position="replace"/>  -->
         </template>
     </data>
 </odoo>
