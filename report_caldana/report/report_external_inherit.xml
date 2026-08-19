@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="external_layout_striped_cnpj_no_footer" inherit_id="web.external_layout_striped">
+            <xpath expr="//div[hasclass('company_address')]/ul" position="inside">
+                <li t-if="company.vat">CNPJ: <span t-field="company.vat"/></li>
+            </xpath>
+            <xpath expr="//div[contains(@t-attf-class, 'o_background_footer')]" position="replace"/> 
+        </template>
+    </data>
+</odoo>
