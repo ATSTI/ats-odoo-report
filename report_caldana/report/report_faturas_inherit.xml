@@ -15,72 +15,89 @@
                     <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
                     <style>
 
-                        .via_col {
-                            font-size: 9px;
-                        }
+    .via_col {
+        font-size: 11px;
+    }
 
-                        .via_col h2 {
-                            font-size: 13px;
-                            margin-bottom: 4px;
-                        }
+    .via_col h2 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
 
-                        .via_col table.table-sm td,
-                        .via_col table.table-sm th {
-                            padding: 2px 3px !important;
-                        }
+    .via_col table.table-sm td,
+    .via_col table.table-sm th {
+        padding: 3px 4px !important;
+    }
 
-                        .via_col table.o_main_table td,
-                        .via_col table.o_main_table th {
-                            font-size: 11px;
-                        }
+    .via_col table.o_main_table td,
+    .via_col table.o_main_table th {
+        font-size: 14px;
+    }
 
-                        .via_col address {
-                            font-size: 9px;
-                            margin-bottom: 2px;
-                        }
+    .via_col address {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
 
-                        .via_col .row > div {
-                            margin-bottom: 2px;
-                        }
+    .via_col .row > div {
+        margin-bottom: 3px;
+    }
 
-                        .via_divider {
-                            border-top: 1px dashed #999;
-                            padding-top: 8px;
-                            margin-top: 8px;
-                        }
+    .via_divider {
+        border-top: 1px dashed #999;
+        padding-top: 8px;
+        margin-top: 8px;
+    }
 
-                        
-                        .via_header_table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-bottom: 8px;
-                        }
+    .via_cliente_info {
+        font-size: 13px;
+        line-height: 1.5;
+    }
 
-                        .via_header_table td {
-                            padding: 0;
-                            vertical-align: middle;
-                        }
+    .via_header_table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
 
-                        .via_header_logo_cell {
-                            width: 1%;
-                            white-space: nowrap;
-                            padding-right: 8px !important;
-                        }
+    .via_header_table td {
+        padding: 0;
+        vertical-align: middle;
+    }
 
-                        .via_header_logo_cell img {
-                            max-height: 45px;
-                            max-width: 160px;
-                            display: block;
-                        }
+    .via_header_logo_cell {
+        width: 1%;
+        white-space: nowrap;
+        padding-right: 14px !important;
+    }
 
-                        .via_header_info_cell {
-                            text-align: left;
-                            line-height: 1.1;
-                            font-size: 9px;
-                            white-space: nowrap;
-                        }
+    .via_header_logo_cell img {
+        max-height: 80px;
+        max-width: 260px;
+        display: block;
+    }
 
-                    </style>
+    .via_header_info_cell {
+        text-align: left;
+        line-height: 1.35;
+        font-size: 13px;
+        white-space: normal;
+    }
+
+    .via_header_info_cell strong {
+        font-size: 15px;
+    }
+
+    .text-end {
+        font-size: 14px;
+    }
+
+    .mb-1 {
+        font-size:14px;
+    }
+
+
+</style>
 
                     <t t-set="vias"
                        t-value="[('Via do Estabelecimento', False), ('Via do Cliente', True)]"/>
@@ -112,7 +129,7 @@
                                                    'no_marker': True
                                                }"/>
                                             <div t-if="o.company_id.vat"
-                                                 style="line-height: 1.1;">
+                                                 style="line-height: 1.35;">
                                                 CNPJ:
                                                 <span t-field="o.company_id.vat"/>
                                             </div>
@@ -120,16 +137,6 @@
                                     </tr>
                                 </table>
 
-                                <!-- <div t-if="via_item_first"
-                                     class="col-8 text-end float-end">
-                                    <strong t-field="o.company_id.name"/>
-                                    <br/>
-                                    <span t-if="o.company_id.vat">
-                                        CNPJ:
-                                        <span t-field="o.company_id.vat"/>
-                                    </span>
-
-                                </div> -->
                                 <div class="mb-1">
 
                                     <strong>Cliente:</strong>

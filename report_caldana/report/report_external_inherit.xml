@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <template id="external_layout_striped_cnpj_no_footer" inherit_id="web.external_layout_striped">
-            <xpath expr="//div[hasclass('company_address')]/ul" position="inside">
-                <li t-if="company.vat">CNPJ: <span t-field="company.vat"/></li>
-            </xpath>
-            <!-- <xpath expr="//div[contains(@t-attf-class, 'o_background_footer')]" position="replace"/>  -->
-        </template>
-    </data>
+<data>
+<template id="external_layout_striped_cnpj_no_footer" inherit_id="web.external_layout_striped">
+
+    <!-- zera os espaços verticais do bloco de endereço da empresa -->
+    <xpath expr="//div[hasclass('company_address')]" position="before">
+        <style>
+            .company_address ul,
+            .company_address li,
+            .company_address address,
+            .company_address p {
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1.3 !important;
+            }
+        </style>
+    </xpath>
+
+    <xpath expr="//div[hasclass('company_address')]/ul" position="inside">
+        <li t-if="company.vat">CNPJ: <span t-field="company.vat"/></li>
+    </xpath>
+
+    <!-- <xpath expr="//div[contains(@t-attf-class, 'o_background_footer')]" position="replace"/>  -->
+</template>
+</data>
 </odoo>
