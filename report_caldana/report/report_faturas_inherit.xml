@@ -383,9 +383,34 @@
                                         <div id="total"
                                              class="row">
                                             <div class="col-8 ms-auto">
+                                                <t t-set="total_bruto"
+                                                   t-value="sum(l.price_unit * l.quantity for l in lines if l.display_type == 'product')"/>
+                                                <t t-set="total_desconto"
+                                                   t-value="total_bruto - o.amount_untaxed"/>
                                                 <table class="table table-sm table-borderless"
                                                        style="page-break-inside: avoid;">
 
+                                                    <tr class="text-end">
+                                                        <td colspan="99">
+                                                            <strong class="mr16">Total bruto</strong>
+                                                            <span t-esc="total_bruto"
+                                                                  t-options="{
+                                                                      'widget': 'monetary',
+                                                                      'display_currency': o.currency_id
+                                                                  }"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="text-end"
+                                                        t-if="total_desconto">
+                                                        <td colspan="99">
+                                                            <strong class="mr16">Desconto</strong>
+                                                            <span t-esc="total_desconto"
+                                                                  t-options="{
+                                                                      'widget': 'monetary',
+                                                                      'display_currency': o.currency_id
+                                                                  }"/>
+                                                        </td>
+                                                    </tr>
                                                     <t t-set="tax_totals"
                                                        t-value="o.tax_totals"/>
                                                     <t t-call="account.document_tax_totals"/>
