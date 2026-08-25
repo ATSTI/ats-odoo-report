@@ -144,8 +144,9 @@
 
                                     <br/>
 
-                                    <strong>Endereço:</strong>
-                                    <span t-field="o.partner_id.contact_address"/>
+                                     <strong>Endereço:</strong>
+                                    <span t-out="', '.join(filter(None, [o.partner_id.street, o.partner_id.street2, o.partner_id.city, o.partner_id.state_id.name, o.partner_id.zip]))"/>
+                                    <br/>
 
                                     <br/>
 
