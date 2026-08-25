@@ -400,8 +400,7 @@
                                                                   }"/>
                                                         </td>
                                                     </tr>
-                                                    <tr class="text-end"
-                                                        t-if="total_desconto">
+                                                    <tr class="text-end">
                                                         <td colspan="99">
                                                             <strong class="mr16">Desconto</strong>
                                                             <span t-esc="total_desconto"
