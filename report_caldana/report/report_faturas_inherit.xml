@@ -411,9 +411,16 @@
                                                                   }"/>
                                                         </td>
                                                     </tr>
-                                                    <t t-set="tax_totals"
-                                                       t-value="o.tax_totals"/>
-                                                    <t t-call="account.document_tax_totals"/>
+                                                    <tr class="text-end">
+                                                        <td colspan="99">
+                                                            <strong class="mr16">Total</strong>
+                                                            <span t-esc="total_bruto - total_desconto"
+                                                                  t-options="{
+                                                                      'widget': 'monetary',
+                                                                      'display_currency': o.currency_id
+                                                                  }"/>
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                             </div>
                                         </div>
