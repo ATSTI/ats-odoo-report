@@ -331,7 +331,7 @@
                     </tr>
                 </table>
 
-                <t t-if="o.payment_term_id">
+                <!-- <t t-if="o.payment_term_id">
                     <table width="100%" style="border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 6px; font-size: 12px; page-break-inside: avoid;">
                         <tr style="background-color: #e0e0e0;">
                             <td colspan="2" style="padding: 3px 6px; font-weight: bold; border-bottom: 1px solid #ccc;">
@@ -350,7 +350,7 @@
                         <strong>Validade do Orçamento:</strong>
                         <span t-field="o.validity_date" t-options='{"widget": "date"}'/>
                     </p>
-                </t>
+                </t> -->
 
                 <!-- <div style="margin-top: 30px; font-size: 13px;">
                     <table width="100%" style="border-collapse: collapse;">
