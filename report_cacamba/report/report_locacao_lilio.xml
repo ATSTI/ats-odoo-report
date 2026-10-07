@@ -77,9 +77,9 @@
 
                             .invoice-number{
                                 float: right;
-                                font-size: 26px;
+                                font-size: 22px;
                                 font-weight: bold;
-                                margin-top: -40px;
+                                margin-top: -30px;
                             }
 
                             .line-field{
@@ -245,7 +245,7 @@
 
                                             <div class="invoice-number">
                                                 Nº
-                                                <span t-esc="o.name.replace('/','') if o.name else '0000'"/>
+                                                <span t-esc="(o.name.split('/')[-1] if (o.name and '/' in o.name and o.name.split('/')[-1]) else (o.name or '0000'))"/>
                                             </div>
 
                                             <div class="mt10">
@@ -545,7 +545,7 @@
 
                                 <div class="receipt-number">
                                     Nº
-                                    <span t-esc="o.name.replace('/','') if o.name else '0000'"/>
+                                    <span t-esc="(o.name.split('/')[-1] if (o.name and '/' in o.name and o.name.split('/')[-1]) else (o.name or '0000'))"/>
                                 </div>
 
                                 <div style="font-size:13px;">
