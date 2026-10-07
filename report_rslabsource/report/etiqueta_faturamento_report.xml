@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_etiqueta_faturamento">
+        <t t-call="web.html_container">
+            <meta charset="utf-8"/>
+            <style>
+                html, body { margin: 0; padding: 0; }
+                .etq-page { width: 210mm; height: 146mm; padding: 5mm 6mm; box-sizing: border-box;
+                            page-break-after: always; overflow: hidden; font-family: Arial, Helvetica, sans-serif;
+                            color: #111; }
+                .etq-page:last-child { page-break-after: auto; }
+                .etq-border { border: 1.2mm solid #222; border-radius: 2mm; padding: 3mm; height: 136mm;
+                              box-sizing: border-box; overflow: hidden; }
+                table.etq-t { width: 100%; border-collapse: separate; border-spacing: 0; }
+                .etq-title { font-size: 14px; font-weight: bold; line-height: 1.25; text-transform: uppercase; }
+                .etq-logo { max-height: 20mm; max-width: 45mm; }
+                .etq-box { border: 0.4mm solid #222; border-radius: 2mm; overflow: hidden; }
+                .etq-head { background: #0B5FB0; color: #fff; font-weight: bold; font-size: 15px;
+                            padding: 1.5mm 4mm; text-transform: uppercase; }
+                .etq-lbl { font-weight: bold; font-size: 12px; white-space: nowrap; padding: 1.5mm 2mm 0 0;
+                           vertical-align: bottom; }
+                .etq-val { font-size: 12px; border-bottom: 0.3mm solid #222; padding: 1.5mm 1mm 0.5mm 1mm;
+                           vertical-align: bottom; height: 6.5mm; }
+                .etq-vol { border: 0.4mm solid #222; border-radius: 1mm; width: 20mm; height: 11mm;
+                           text-align: center; font-size: 17px; font-weight: bold; }
+            </style>
+
+            <t t-foreach="docs" t-as="o">
+                <t t-set="qtd_volumes"
+                   t-value="int(sum(float(v or 0) for v in o.nfe40_vol.mapped('nfe40_qVol')) or 1)"/>
+                <t t-set="partner" t-value="o.partner_shipping_id or o.partner_id"/>
+                <t t-set="company" t-value="o.company_id"/>
+
+                <t t-foreach="range(1, qtd_volumes + 1)" t-as="vol">
+                    <div class="etq-page">
+                        <div class="etq-border">
+
+                            <table class="etq-t" style="margin-bottom:3mm;">
+                                <tr>
+                                    <td style="width:50mm; vertical-align:middle; border-right:0.3mm solid #999;">
+                                        <img t-if="company.logo" class="etq-logo"
+                                             t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                                    </td>
+                                    <td style="vertical-align:middle; padding-left:5mm;">
+                                        <div class="etq-title">
+                                            <t t-esc="(company.legal_name or company.name)"/> –
+                                            Mercadoria faturada – não aceitar sem conferência da NF-e
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="etq-t" style="margin-bottom:3mm;">
+                                <tr>
+                                    <td style="width:60%; vertical-align:top; padding-right:2mm;">
+                                        <div class="etq-box">
+                                            <div class="etq-head">Destinatário</div>
+                                            <table class="etq-t" style="padding:0.5mm 4mm 2mm 4mm;">
+                                                <tr>
+                                                    <td class="etq-lbl">Empresa:</td>
+                                                    <td class="etq-val"><t t-esc="partner.legal_name or partner.name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl">CNPJ:</td>
+                                                    <td class="etq-val"><t t-esc="partner.cnpj_cpf"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl">Endereço:</td>
+                                                    <td class="etq-val">
+                                                        <t t-esc="partner.street_name"/>
+                                                        <t t-if="partner.street_number">, <t t-esc="partner.street_number"/></t>
+                                                        <t t-if="partner.street2"> - <t t-esc="partner.street2"/></t>
+                                                        <t t-if="partner.district"> - <t t-esc="partner.district"/></t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl">Cidade/UF:</td>
+                                                    <td class="etq-val">
+                                                        <t t-esc="partner.city_id.name or partner.city"/>
+                                                        <t t-if="partner.state_id"> / <t t-esc="partner.state_id.code"/></t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl">CEP:</td>
+                                                    <td class="etq-val"><t t-esc="partner.zip"/></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td style="width:40%; vertical-align:top; padding-left:2mm;">
+                                        <div class="etq-box">
+                                            <div class="etq-head">Dados da remessa</div>
+                                            <table class="etq-t" style="padding:0.5mm 4mm 2mm 4mm;">
+                                                <tr>
+                                                    <td class="etq-lbl">NF-e nº:</td>
+                                                    <td class="etq-val"><t t-esc="o.document_number"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl">Data de faturamento:</td>
+                                                    <td class="etq-val">
+                                                        <t t-if="o.document_date"
+                                                           t-esc="o.document_date" t-options="{'widget': 'date'}"/>
+                                                        <t t-else="" t-esc="o.invoice_date" t-options="{'widget': 'date'}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="etq-lbl" style="padding-top:4mm;">Volume:</td>
+                                                    <td style="padding-top:2mm;">
+                                                        <table class="etq-t">
+                                                            <tr>
+                                                                <td><div class="etq-vol" style="line-height:11mm;"><t t-esc="vol"/></div></td>
+                                                                <td style="text-align:center; font-weight:bold; font-size:14px;">de</td>
+                                                                <td><div class="etq-vol" style="line-height:11mm;"><t t-esc="qtd_volumes"/></div></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="etq-box">
+                                <div class="etq-head">Observações / Instruções de entrega</div>
+                                <div style="height:26mm; padding:2mm 4mm; font-size:12px; overflow:hidden;">
+                                    <t t-esc="o.fiscal_additional_data or ''"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

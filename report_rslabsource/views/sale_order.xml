@@ -15,4 +15,41 @@
             </xpath>    
         </field>
     </record>
+
+    <record id="view_quotation_tree_date_order" model="ir.ui.view">
+        <field name="name">sale.order.tree.date.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="create_date" position="after">
+                <field name="date_order" string="Data do Pedido" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_date_order_month" model="ir.ui.view">
+        <field name="name">sale.order.search.date.order.month</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <separator/>
+                <filter string="Data do Pedido" name="filter_date_order" date="date_order"/>
+                <separator/>
+                <!-- <filter string="Janeiro" name="date_order_m01" domain="[('date_order_month', '=', '01')]"/>
+                <filter string="Fevereiro" name="date_order_m02" domain="[('date_order_month', '=', '02')]"/>
+                <filter string="Março" name="date_order_m03" domain="[('date_order_month', '=', '03')]"/>
+                <filter string="Abril" name="date_order_m04" domain="[('date_order_month', '=', '04')]"/>
+                <filter string="Maio" name="date_order_m05" domain="[('date_order_month', '=', '05')]"/>
+                <filter string="Junho" name="date_order_m06" domain="[('date_order_month', '=', '06')]"/>
+                <filter string="Julho" name="date_order_m07" domain="[('date_order_month', '=', '07')]"/>
+                <filter string="Agosto" name="date_order_m08" domain="[('date_order_month', '=', '08')]"/>
+                <filter string="Setembro" name="date_order_m09" domain="[('date_order_month', '=', '09')]"/>
+                <filter string="Outubro" name="date_order_m10" domain="[('date_order_month', '=', '10')]"/>
+                <filter string="Novembro" name="date_order_m11" domain="[('date_order_month', '=', '11')]"/>
+                <filter string="Dezembro" name="date_order_m12" domain="[('date_order_month', '=', '12')]"/> -->
+            </filter>
+        </field>
+    </record>
+
 </odoo>

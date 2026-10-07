@@ -37,6 +37,7 @@
     'depends': ['account', 'l10n_br_sale', 'l10n_br_purchase'],
     'data': [
         'report/report_paper_format.xml',
+        'report/etiqueta_faturamento_report.xml',
         'views/sale_order.xml',
         'views/purchase_order.xml',
         'report/report_rslabsource_orcamento_document.xml',
