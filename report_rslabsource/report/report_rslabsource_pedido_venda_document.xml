@@ -114,78 +114,77 @@
                         </div>
                     </t>
                 </div>
-
-                <!-- ITENS DO PEDIDO -->
-                <table width="100%" style="border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 6px; font-size: 13px;">
+                 <!-- ITENS DO PEDIDO -->
+                <table width="100%" style="border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 6px; font-size: 10px;">
                     <thead>
                         <tr style="background-color: #4472C4; color: #fff; text-align: center;">
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 12%;">Part Number</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 40%;">Descrição</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 5%;">NCM</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 8%;">Entrega</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 6%;">Qtde</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 9%;">Preço unitário</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 5%;">% ICMS</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 6%;">Red. ICMS</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 5%;">IPI</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 6%;">V. Desc.</th>
-                            <th style="border: 1px solid #ccc; padding: 4px 5px; width: 9%;">Preço Total</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 12%;">Part Number</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 40%;">Descrição</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 5%;">NCM</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 8%;">Entrega</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 6%;">Qtde</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 9%;">Preço unitário</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 5%;">% ICMS</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 6%;">Red. ICMS</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 5%;">IPI</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 6%;">V. Desc.</th>
+                            <th style="border: 1px solid #ccc; padding: 3px 4px; width: 9%;">Preço Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <t t-foreach="o.order_line" t-as="line">
                             <tr style="vertical-align: top;">
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-esc="(line.product_id.default_code or '')[:14]"/>
                                 </td>
                                 <!-- CÉLULA DA DESCRIÇÃO COM MAIOR ESPAÇAMENTO ENTRE LINHAS -->
-                                <td style="border: 1px solid #ccc; padding: 6px 8px; line-height: 1.35;">
-                                    <div style="margin-bottom: 4px;">
+                                <td style="border: 1px solid #ccc; padding: 4px 6px; line-height: 1.35;">
+                                    <div style="margin-bottom: 3px;">
                                         <t t-esc="line.product_id.name.split('] ', 1)[1] if line.product_id.name and '] ' in line.product_id.name else line.product_id.name"/>
                                     </div>
                                     <t t-if="line.product_id.description_sale">
-                                        <div style="font-size: 11px; color: #555; margin-top: 3px; line-height: 1.4;">
+                                        <div style="font-size: 9px; color: #555; margin-top: 2px; line-height: 1.35;">
                                             <t t-esc="line.product_id.description_sale"/>
                                         </div>
                                     </t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-if="line.product_id.ncm_id">
                                         <t t-esc="line.product_id.ncm_id.code"/>
                                     </t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-if="line.customer_lead and o.date_order">
                                         <t t-set="data_prevista" t-value="o.date_order + datetime.timedelta(days=int(line.customer_lead))"/>
                                         <span t-esc="data_prevista.strftime('%d/%m/%y')"/>
                                     </t>
                                     <t t-else="">-</t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-esc="'%.2f' % line.product_uom_qty"/>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <span style="white-space: nowrap;">
                                         <t t-esc="currency_symbol"/>
                                         <t t-esc="'{:,.2f}'.format(line.price_unit).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
                                     </span>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-set="icms_tax" t-value="line.tax_id.filtered(lambda t: 'icms' in t.name.lower())"/>
                                     <t t-if="icms_tax">
                                         <t t-esc="'%.2f' % icms_tax[0].amount"/>
                                     </t>
                                     <t t-else="">0,00</t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">0,00</td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">0,00</td>
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-set="ipi_tax" t-value="line.tax_id.filtered(lambda t: 'ipi' in t.name.lower())"/>
                                     <t t-if="ipi_tax">
                                         <t t-esc="'%.2f' % ipi_tax[0].amount"/>
                                     </t>
                                     <t t-else="">0,00</t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center;">
                                     <t t-if="line.discount">
                                         <span style="white-space: nowrap;">
                                             <t t-esc="'{:,.2f}'.format(line.price_unit * line.product_uom_qty * line.discount / 100).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
@@ -195,7 +194,7 @@
                                         <span style="white-space: nowrap;"> 0,00</span>
                                     </t>
                                 </td>
-                                <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center; font-weight: bold;">
+                                <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center; font-weight: bold;">
                                     <span style="white-space: nowrap;">
                                         <t t-esc="currency_symbol"/>
                                         <t t-esc="'{:,.2f}'.format(line.price_subtotal).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
@@ -206,11 +205,11 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" style="border: 1px solid #ccc; padding: 4px 5px;"/>
-                            <td style="border: 1px solid #ccc; padding: 4px 5px; text-align: center; font-weight: bold;">
+                            <td colspan="4" style="border: 1px solid #ccc; padding: 3px 4px;"/>
+                            <td style="border: 1px solid #ccc; padding: 3px 4px; text-align: center; font-weight: bold;">
                                 <t t-esc="'%.2f' % sum(o.order_line.mapped('product_uom_qty'))"/>
                             </td>
-                            <td colspan="6" style="border: 1px solid #ccc; padding: 4px 5px;"/>
+                            <td colspan="6" style="border: 1px solid #ccc; padding: 3px 4px;"/>
                         </tr>
                     </tfoot>
                 </table>
