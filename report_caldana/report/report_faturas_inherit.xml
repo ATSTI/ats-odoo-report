@@ -384,17 +384,23 @@
                                         <div id="total"
                                              class="row">
                                             <div class="col-8 ms-auto">
-                                                <t t-set="total_bruto"
-                                                   t-value="sum(l.price_unit * l.quantity for l in lines if l.display_type == 'product')"/>
-                                                <t t-set="total_desconto"
-                                                   t-value="total_bruto - o.amount_untaxed"/>
                                                 <table class="table table-sm table-borderless"
                                                        style="page-break-inside: avoid;">
 
                                                     <tr class="text-end">
                                                         <td colspan="99">
                                                             <strong class="mr16">Total bruto</strong>
-                                                            <span t-esc="total_bruto"
+                                                            <span t-esc="o.amount_price_gross"
+                                                                  t-options="{
+                                                                      'widget': 'monetary',
+                                                                      'display_currency': o.currency_id
+                                                                  }"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="text-end">
+                                                        <td colspan="99">
+                                                            <strong class="mr16">Frete</strong>
+                                                            <span t-esc="o.amount_freight_value"
                                                                   t-options="{
                                                                       'widget': 'monetary',
                                                                       'display_currency': o.currency_id
@@ -404,7 +410,7 @@
                                                     <tr class="text-end">
                                                         <td colspan="99">
                                                             <strong class="mr16">Desconto</strong>
-                                                            <span t-esc="total_desconto"
+                                                            <span t-esc="o.amount_discount_value"
                                                                   t-options="{
                                                                       'widget': 'monetary',
                                                                       'display_currency': o.currency_id
@@ -414,7 +420,7 @@
                                                     <tr class="text-end">
                                                         <td colspan="99">
                                                             <strong class="mr16">Total</strong>
-                                                            <span t-esc="total_bruto - total_desconto"
+                                                            <span t-esc="o.amount_untaxed"
                                                                   t-options="{
                                                                       'widget': 'monetary',
                                                                       'display_currency': o.currency_id
