@@ -17,16 +17,26 @@
 
     .via_col {
         font-size: 11px;
+        line-height: 1.2;
     }
 
     .via_col h2 {
         font-size: 16px;
-        margin-bottom: 5px;
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+
+    .via_col p {
+        margin-bottom: 0;
+    }
+
+    .via_col table {
+        margin-bottom: 0 !important;
     }
 
     .via_col table.table-sm td,
     .via_col table.table-sm th {
-        padding: 3px 4px !important;
+        padding: 1px 4px !important;
     }
 
     .via_col table.o_main_table td,
@@ -36,28 +46,49 @@
 
     .via_col address {
         font-size: 11px;
-        margin-bottom: 3px;
+        margin-bottom: 0;
+    }
+
+    .via_col .row {
+        margin-bottom: 0;
     }
 
     .via_col .row > div {
-        margin-bottom: 3px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .via_col .mt-1,
+    .via_col .mt-2 {
+        margin-top: 2px !important;
+    }
+
+    .via_col .mb-1 {
+        margin-bottom: 2px !important;
+    }
+
+    .via_sep {
+        margin-left: 12px;
+        white-space: nowrap;
     }
 
     .via_divider {
         border-top: 1px dashed #999;
-        padding-top: 8px;
-        margin-top: 8px;
+        padding-top: 4px;
+        margin-top: 4px;
     }
 
     .via_cliente_info {
         font-size: 13px;
-        line-height: 1.5;
+        line-height: 1.2;
     }
 
     .via_header_table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 10px;
+        margin-bottom: 4px !important;
     }
 
     .via_header_table td {
@@ -79,7 +110,7 @@
 
     .via_header_info_cell {
         text-align: left;
-        line-height: 1.35;
+        line-height: 1.2;
         font-size: 13px;
         white-space: normal;
     }
@@ -129,7 +160,7 @@
                                                    'no_marker': True
                                                }"/>
                                             <div t-if="o.company_id.vat"
-                                                 style="line-height: 1.35;">
+                                                 style="line-height: 1.2;">
                                                 CNPJ:
                                                 <span t-field="o.company_id.vat"/>
                                             </div>
@@ -142,23 +173,21 @@
                                     <strong>Cliente:</strong>
                                     <span t-field="o.partner_id.name"/>
 
+                                    <span class="via_sep" t-if="o.partner_id.vat">
+                                        <strong>CPF/CNPJ:</strong>
+                                        <span t-field="o.partner_id.vat"/>
+                                    </span>
+
+                                    <span class="via_sep" t-if="o.partner_id.mobile">
+                                        <strong>Celular:</strong>
+                                        <span t-field="o.partner_id.mobile"/>
+                                    </span>
+
                                     <br/>
 
-                                     <strong>Endereço:</strong>
+                                    <strong>Endereço:</strong>
                                     <span t-out="', '.join(filter(None, [o.partner_id.street, o.partner_id.street2, o.partner_id.city, o.partner_id.state_id.name, o.partner_id.zip]))"/>
-                                    <br/>
 
-                                    <br/>
-
-                                    <strong>CPF/CNPJ:</strong>
-                                    <span t-field="o.partner_id.vat"/>
-
-                                    <br/>
-
-                                    <strong>Celular:</strong>
-                                    <span t-field="o.partner_id.mobile"/>
-
-                                    <br/>
                                 </div>
                                 <div class="mt-1">
 
@@ -222,6 +251,20 @@
 
                                             <strong>Venc.:</strong>
                                             <span t-field="o.invoice_date_due"/>
+
+                                        </div>
+                                        <div class="col-auto mw-100"
+                                             name="delivery_date">
+
+                                            <strong>Entrega:</strong>
+                                            <t t-if="o.data_de_entrega">
+                                                <span t-field="o.data_de_entrega"
+                                                      t-options='{"format": "dd/MM/yyyy"}'/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.date_in_out"
+                                                      t-options='{"format": "dd/MM/yyyy"}'/>
+                                            </t>
 
                                         </div>
                                         <div class="col-auto mw-100"
@@ -432,19 +475,6 @@
                                         </div>
                                     </div>
 
-                                    <p class="mb-1">
-                                        Entrega:
-                                        <b>
-                                            <t t-if="o.data_de_entrega">
-                                                <span t-field="o.data_de_entrega"
-                                                      t-options='{"format": "dd/MM/yyyy"}'/>
-                                            </t>
-                                            <t t-else="">
-                                                <span t-field="o.date_in_out"
-                                                      t-options='{"format": "dd/MM/yyyy"}'/>
-                                            </t>
-                                        </b>
-                                    </p>
                                     <div t-field="o.invoice_payment_term_id.note"
                                          name="payment_term"/>
                                     <div t-if="not is_html_empty(o.narration)"
@@ -456,12 +486,12 @@
                                         <span t-field="o.fiscal_position_id.note"/>
                                     </p>
                                 </div>
-                                <div class="mt-2"
+                                <div class="mt-1"
                                      style="page-break-inside: avoid;">
 
                                     <div class="text-center">
 
-                                        <div style="height: 30px;">
+                                        <div style="height: 16px;">
                                         </div>
 
                                         <div style="
@@ -471,13 +501,10 @@
                                         ">
                                         </div>
 
-                                        <div class="mt-1">
+                                        <strong>
+                                            Assinatura do Cliente
+                                        </strong>
 
-                                            <strong>
-                                                Assinatura do Cliente
-                                            </strong>
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>
