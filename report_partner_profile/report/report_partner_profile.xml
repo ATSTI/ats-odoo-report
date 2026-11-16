@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_partner_profile">
+        <t t-call="web.basic_layout">
+            <style>
+                html, body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+                .page, .article {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+            </style>
+            <t t-foreach="docs" t-as="o">
+                <t t-set="o" t-value="o.with_context(lang=o.lang or user.lang)"/>
+                <t t-set="company" t-value="o.company_id or res_company"/>
+
+                <div class="page" style="font-size: 12px; page-break-after: always;">
+
+                    <!-- Cabeçalho -->
+                    <table style="border: 0; width: 100%;">
+                        <tr>
+                            <td style="border: 0; width: 40%; vertical-align: top;">
+                                <img t-if="company.logo"
+                                     t-att-src="image_data_uri(company.logo)"
+                                     t-att-alt="company.name"
+                                     style="max-height: 70px; max-width: 100%;"/>
+                            </td>
+                            <td style="text-align: right; border: 0; width: 60%; font-size: 12px;">
+                                <span t-field="company.name"/>
+                                <br/>CNPJ/CPF: <span t-field="company.cnpj_cpf"/>
+                                <br/>
+                                <span t-field="company.street_name"/>, <span t-field="company.street_number"/>
+                                - <span t-field="company.district"/>,
+                                CEP: <span t-field="company.zip"/>
+                                - <span t-field="company.state_id.code"/>
+                                <br/>
+                                <span t-field="company.phone"/> | <span t-field="company.email"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <hr style="border: 1px solid #898989; margin: 2px 0 10px 0;"/>
+
+                    <!-- Título -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+                        <tr>
+                            <td style="width: 70%;">
+                                <strong style="font-size: 16px;">FICHA CADASTRAL DE PARCEIRO</strong>
+                            </td>
+                            <td style="width: 30%; text-align: right;">
+                                <strong>Data de emissão:</strong>
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- 1. Identificação -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 10px; page-break-inside: avoid;">
+                        <tr>
+                            <td colspan="2" style="background-color: #e5e5e5; border: 1px solid #000; padding: 6px;">
+                                <strong>1. IDENTIFICAÇÃO</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 75%; padding: 8px; vertical-align: top;">
+                                <strong>Nome:</strong><br/>
+                                <span t-esc="o.name or '-'"/>
+                                <br/><br/>
+                                <strong>Nome Completo:</strong><br/>
+                                <span t-esc="o.legal_name or '-'"/>
+                                <br/><br/>
+                                <strong>CPF / CNPJ:</strong><br/>
+                                <span t-esc="o.vat or '-'"/>
+                                <br/><br/>
+                                <strong>RG:</strong><br/>
+                                <span t-esc="o.l10n_br_rg_code or '-'"/>
+                                <br/><br/>
+                                <strong>Inscrição Estadual:</strong><br/>
+                                <span t-esc="o.l10n_br_ie_code or '-'"/>
+                            </td>
+                            <td style="width: 25%; padding: 8px; vertical-align: middle; text-align: center;">
+                                <img t-if="o.image_1920"
+                                     t-att-src="image_data_uri(o.image_1920)"
+                                     style="max-width: 130px; max-height: 150px; border: 1px solid #999;"/>
+                                <div t-else=""
+                                     style="width: 130px; height: 150px; border: 1px solid #999; line-height: 150px; color: #888; text-align: center; margin: 0 auto;">
+                                    Sem foto
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- 2. Endereço -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 10px; page-break-inside: avoid;">
+                        <tr>
+                            <td colspan="2" style="background-color: #e5e5e5; border: 1px solid #000; padding: 6px;">
+                                <strong>2. ENDEREÇO</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="padding: 8px;">
+                                <strong>Logradouro:</strong><br/>
+                                <span t-esc="o.street or '-'"/>
+                                <t t-if="o.street2"> - <span t-esc="o.street2"/></t>
+                                <br/><br/>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="width: 50%; padding-bottom: 8px;">
+                                            <strong>Número:</strong><br/>
+                                            <span t-esc="o.street_number or '-'"/>
+                                        </td>
+                                        <td style="width: 50%; padding-bottom: 8px;">
+                                            <strong>Bairro:</strong><br/>
+                                            <span t-esc="o.district or '-'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 8px;">
+                                            <strong>Cidade:</strong><br/>
+                                            <span t-esc="o.city_id.name or o.city or '-'"/>
+                                        </td>
+                                        <td style="padding-bottom: 8px;">
+                                            <strong>Estado:</strong><br/>
+                                            <span t-esc="o.state_id.name or '-'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>CEP:</strong><br/>
+                                            <span t-esc="o.zip or '-'"/>
+                                        </td>
+                                        <td>
+                                            <strong>País:</strong><br/>
+                                            <span t-esc="o.country_id.name or '-'"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- 3. Contato -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 10px; page-break-inside: avoid;">
+                        <tr>
+                            <td colspan="2" style="background-color: #e5e5e5; border: 1px solid #000; padding: 6px;">
+                                <strong>3. CONTATO</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%; padding: 8px;">
+                                <strong>Telefone:</strong><br/>
+                                <span t-esc="o.phone or '-'"/>
+                            </td>
+                            <td style="width: 50%; padding: 8px;">
+                                <strong>Celular:</strong><br/>
+                                <span t-esc="o.mobile or '-'"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;">
+                                <strong>E-mail:</strong><br/>
+                                <span t-esc="o.email or '-'"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <!-- 4. Informações adicionais -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; page-break-inside: avoid;">
+                        <tr>
+                            <td style="background-color: #e5e5e5; border: 1px solid #000; padding: 6px;">
+                                <strong>4. INFORMAÇÕES ADICIONAIS</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; height: 50px; vertical-align: top;">
+                                <strong>Observações:</strong><br/>
+                                <span t-if="o.comment" t-field="o.comment"/>
+                                <span t-else="">-</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

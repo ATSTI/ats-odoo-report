@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_partner_profile_report" model="ir.actions.report">
+        <field name="name">Ficha Cadastral</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">report_partner_profile.report_partner_profile</field>
+        <field name="report_file">report_partner_profile.report_partner_profile</field>
+
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_type">report</field>
+
+        <field name="print_report_name">'ficha_cadastral_%s' % (object.name)</field>
+    </record>
+</odoo>
