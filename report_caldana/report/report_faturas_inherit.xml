@@ -11,10 +11,16 @@
 
                     <t t-call="web.external_layout">
                         <style>
-
+    .article {
+        padding-top: 35px !important;
+    }
     .via_col {
-        font-size: 11px;
-        line-height: 1.1;
+    font-size: 11px;
+    line-height: 1.1;
+    }
+
+    .via_col:first-child {
+    padding-top: 25px;
     }
 
     .via_col h2 {
