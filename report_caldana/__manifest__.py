@@ -18,7 +18,6 @@
         'base','sale','account'
     ],
     'data': [
-        'report/report_paperformat.xml',
         'report/report_external_inherit.xml',
         'report/report_faturas_inherit.xml',
         'views/account_move.xml'
